@@ -1,0 +1,20 @@
+/**
+ * Phone Store Custom Post Types - Admin Styling
+ */
+
+.phone-meta-wrapper, .phone-order-meta-wrapper {
+	padding: 10px 5px;
+}
+
+.phone-meta-field label, .phone-order-field label {
+	font-size: 13px;
+}
+
+.phone-meta-field input:focus, 
+.phone-meta-field select:focus, 
+.phone-order-field input:focus, 
+.phone-order-field select:focus {
+	border-color: #2271b1;
+	box-shadow: 0 0 0 1px #2271b1;
+	outline: 2px solid transparent;
+}

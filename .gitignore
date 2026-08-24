@@ -1,10 +1,8 @@
-# Wordpress - ignore core, configuration, examples, uploads and logs.
-# https://github.com/github/gitignore/blob/main/WordPress.gitignore
+# Exclude docs and zip archives
+docs/
+*.zip
 
-# Core
-#
-# Note: if you want to stage/commit WP core files
-# you can delete this whole section/until Configuration.
+# WordPress - ignore core, configuration, examples, uploads and logs
 /wp-admin/
 /wp-content/index.php
 /wp-content/languages
@@ -20,29 +18,23 @@
 # Configuration
 wp-config.php
 
-# Example themes
+# Example themes & plugins
 /wp-content/themes/twenty*/
-
-# Example plugin
 /wp-content/plugins/hello.php
 
-# Uploads
+# Uploads & Cache
 /wp-content/uploads/
+/wp-content/cache/
+/wp-content/blogs.dir/
+/wp-content/upgrade/
+/wp-content/backup-db/
 
-# Log files
+# Log files & htaccess
 *.log
-
-# htaccess
 /.htaccess
 
-# All plugins
-#
-# Note: If you wish to whitelist plugins,
-# uncomment the next line
-#/wp-content/plugins
-
-# All themes
-#
-# Note: If you wish to whitelist themes,
-# uncomment the next line
-#/wp-content/themes
+# OS & Editor generated files
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
