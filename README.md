@@ -1,186 +1,210 @@
-# 📱 KTD Store — Hệ Thống Thương Mại Điện Tử Bán Lẻ Smartphone Cao Cấp
+# KTD Store - He Thong Thuong Mai Dien Tu Ban Le Smartphone
 
-<p align="center">
-  <img src="https://img.shields.io/badge/WordPress-6.7-blue?logo=wordpress&logoColor=white" alt="WordPress 6.7" />
-  <img src="https://img.shields.io/badge/WooCommerce-9.x-96588a?logo=woocommerce&logoColor=white" alt="WooCommerce" />
-  <img src="https://img.shields.io/badge/AI_Engine-Dify_Workflow-4F46E5?logo=openai&logoColor=white" alt="Dify AI" />
-  <img src="https://img.shields.io/badge/PHP-8.2-777BB4?logo=php&logoColor=white" alt="PHP 8.2" />
-  <img src="https://img.shields.io/badge/Security-SSL_Let's_Encrypt-green?logo=letsencrypt&logoColor=white" alt="SSL Let's Encrypt" />
-  <img src="https://img.shields.io/badge/License-MIT-orange" alt="License MIT" />
-</p>
-
-> **Đồ án môn học:** Phát triển Ứng dụng Web & Thương mại Điện tử  
-> **Đơn vị đào tạo:** Trường Đại học Văn Lang (VLU)  
-> **Tác giả / Sinh viên:** MSSV `2500114656` — GitHub: [`@Adui99`](https://github.com/Adui99)  
-> **Showroom đại diện:** 280 An Dương Vương, Phường 4, Quận 5, TP. Hồ Chí Minh  
-> **Hotline CSKH:** 1900 8888  
+## Thong Tin Do An
+- **Mon hoc:** Phat trien Ung dung Web & Thuong mai Dien tu
+- **Don vi dao tao:** Truong VLSC
+- **Nhom thuc hien:** Nhom KTD
+- **Thanh vien:**
+  - Hoang Khuong Duy
+  - Do Minh Khoa
+  - Nguyen Ngoc Tien
+- **Website truc tuyen (Production):** [https://wp.ktdteam.me](https://wp.ktdteam.me) (Domain chinh: [https://ktdteam.me](https://ktdteam.me))
+- **GitHub Repository:** [https://github.com/Adui99/KTD_Wordpress_Ecommerce](https://github.com/Adui99/KTD_Wordpress_Ecommerce)
+- **Showroom dai dien:** 280 An Duong Vuong, Phuong 4, Quan 5, TP. Ho Chi Minh
+- **Hotline ho tro:** 1900 8888
 
 ---
 
-## 🌐 1. Liên Kết Trực Tuyến & Minh Chứng Dự Án
+## 1. Tong Quan Du An
+KTD Store la he thong thuong mai dien tu chuyen kinh doanh thiet bi di dong cao cap (Apple iPhone, Samsung Galaxy, OPPO Find), duoc xay dung tren nen tang WordPress va WooCommerce, tich hop Chatbot AI tro ly tu van ban hang thoi gian thuc va bo toi uu hieu nang chuyen sau.
 
-* **Website Bán hàng Trực tuyến (Live Production Store):**  
-  👉 **[https://wp.ktdteam.me](https://wp.ktdteam.me)** *(Domain chính thức: [`https://ktdteam.me`](https://ktdteam.me))*
-* **Mã nguồn Chính thức (GitHub Repository):**  
-  👉 **[https://github.com/Adui99/KTD_Wordpress_Ecommerce](https://github.com/Adui99/KTD_Wordpress_Ecommerce)**
-* **Trạng thái Triển khai:**
-  * Máy chủ Cloud Hosting đã kích hoạt chứng chỉ bảo mật **SSL/HTTPS Let's Encrypt** (TLS 1.3).
-  * Vận hành 100% động trên nền tảng WordPress + WooCommerce + MySQL Database + Chatbot AI Native.
+He thong da duoc dong goi, trien khai thuc te tren Cloud Hosting voi day du tinh nang dong, co so du lieu MySQL, chung chi bao mat SSL HTTPS quoc te va quy trinh sao luu tu dong.
 
 ---
 
-## 🏗️ 2. Kiến Trúc Dữ Liệu Thực Tế (Data Architecture)
+## 2. Kien Truc Du Lieu Da Trien Khai
 
-Dự án áp dụng triết lý **"Less is More — Hiệu năng tối đa"**, vận hành hoàn toàn dựa trên nhân chuẩn hóa của **WooCommerce Core** nhằm đảm bảo tốc độ truy vấn cơ sở dữ liệu nhanh nhất và khả năng tương thích 100% với các cổng thanh toán/vận chuyển:
+### 2.1. Nen tang WooCommerce Core Native
+He thong to chuc toan bo danh muc kinh doanh dua tren co che chuan hoa cua WooCommerce:
+- **Quy mo danh muc:** 58 san pham chinh thuc va 100 bien the phan cung (`product_variation`).
+- **He thong thuoc tinh bien the (Attributes):**
+  - `pa_color`: Mau sac flagship (Titan Sa Mac, Titan Tu Nhien, Den Khong Gian, Xanh Cobalt...).
+  - `pa_storage`: Dung luong bo nho trong (128GB, 256GB, 512GB, 1TB).
+- **Phan loai danh muc phan cap (`product_cat`):** Cau truc cay da cap theo thuong hieu (`Apple > iPhone`, `Samsung > Galaxy S / Galaxy Z`, `OPPO > Find X / Reno`).
+- **Truong du lieu ban hang (Post Meta):** Quan ly tap trung gia goc (`_regular_price`), gia khuyen mai (`_sale_price`), trang thai kho (`_stock_status`), quan ly ton kho (`_manage_stock`).
 
 ```mermaid
 erDiagram
-    wp_posts_product ||--o{ wp_posts_variation : "chứa các biến thể"
-    wp_posts_product ||--|{ wp_term_relationships : "thuộc danh mục"
-    wp_term_relationships ||--|| wp_terms_categories : "phân loại"
-    wp_posts_product ||--o{ wp_postmeta : "lưu trữ giá và cấu hình"
+    wp_posts_product ||--o{ wp_posts_variation : "chua cac bien the"
+    wp_posts_product ||--|{ wp_term_relationships : "thuoc danh muc"
+    wp_term_relationships ||--|| wp_terms_categories : "phan loai"
+    wp_posts_product ||--o{ wp_postmeta : "luu tru gia va thuoc tinh"
 
     wp_posts_product {
-        BIGINT ID PK "Khóa chính sản phẩm"
-        string post_title "Tên Smartphone (VD: iPhone 16 Pro Max)"
-        string post_name "Slug SEO (iphone-16-pro-max)"
+        BIGINT ID PK "Khoa chinh san pham"
+        string post_title "Ten san pham"
+        string post_name "Slug SEO"
         string post_status "publish"
     }
 
     wp_posts_variation {
-        BIGINT ID PK "Khóa chính biến thể"
-        BIGINT post_parent FK "Trỏ về ID sản phẩm cha"
-        string post_title "Biến thể (VD: 256GB - Titan Sa Mạc)"
+        BIGINT ID PK "Khoa chinh bien the"
+        BIGINT post_parent FK "Tro ve ID san pham cha"
+        string post_title "Ten bien the"
     }
 
     wp_postmeta {
         BIGINT meta_id PK
         BIGINT post_id FK
         string meta_key "_price, _sale_price, _stock_status, _sku"
-        longtext meta_value "Giá trị thuộc tính bán hàng"
+        longtext meta_value "Gia tri thuoc tinh"
     }
 ```
 
-### Chi tiết cấu trúc dữ liệu:
-* **Quy mô danh mục:** **58 sản phẩm** chính thức và hơn **100 biến thể** phần cứng đang hoạt động.
-* **Hệ thống Thuộc tính Biến thể (Attributes):**
-  * `pa_color`: Tùy chọn màu sắc cao cấp (Titan Sa Mạc, Titan Tự Nhiên, Đen Không Gian, Xanh Cobalt...).
-  * `pa_storage`: Tùy chọn dung lượng bộ nhớ (128GB, 256GB, 512GB, 1TB).
-* **Cây Danh mục Phân cấp (`product_cat`):** Phân nhóm theo thương hiệu (`Apple > iPhone`, `Samsung > Galaxy S / Galaxy Z`, `OPPO > Find X / Reno`).
-* **Metadata Quản trị Kho & Bán hàng:** `_regular_price`, `_sale_price`, `_stock_status` (`instock`, `outofstock`), `_manage_stock`.
+### 2.2. Module Custom Post Type Mo Rong (phone-store-cpt)
+Dong thoi, du an dong goi plugin mo rong doc lap `phone-store-cpt` phuc vu nghien cuu kien truc du lieu nang cao:
+- **CPT `phone_product`:** Dinh nghia thong so ky thuat chuyen biet (Chipset, RAM, Man hinh, Dung luong pin, Tinh trang may).
+- **CPT `phone_order`:** Tiep nhan don hang va yeu cau tu van nhanh tu khach hang.
+- **Custom Taxonomies:** `phone_brand` (phan cap) va `phone_series` (the tag).
+- **JSON-LD Schema Generator:** Tu dong sinh Schema `Product` va `LocalBusiness` ho tro SEO.
 
 ---
 
-## 🤖 3. Điểm Nhấn Ứng Dụng AI (AI Consultant Hub)
+## 3. Tich Hop Tri Tue Nhan Tao (AI Chatbot)
 
-Hệ thống tích hợp quy trình tư vấn tự động thông minh xây dựng trên **Dify AI Workflow Engine** kết hợp mô hình ngôn ngữ lớn thế hệ mới (**Gemini 3.5 Flash / Gemma-4-31B-it**):
+He thong tich hop quy trinh tu van tu dong su dung **Dify AI Workflow Engine** ket hop mo hinh ngon ngu lon (**Gemini 3.5 Flash / Gemma-4-31B-it**):
 
 ```
-┌─────────────────┐       ┌────────────────────────┐       ┌────────────────────────┐
-│  Khách Hàng Hỏi │ ────► │ Node 1: Classifier     │ ────► │ Node 2: Knowledge RAG  │
-│  (Chatbox Web)  │       │ (Phân loại 8 Intent)   │       │ (Truy xuất dữ liệu KTD)│
-└─────────────────┘       └────────────────────────┘       └───────────┬────────────┘
-                                                                       │
-┌─────────────────┐       ┌────────────────────────┐                   │
-│ Khách Nhận Tin  │ ◄──── │ Node 3: Polish & Tone  │ ◄─────────────────┘
-│ (Chuẩn phong độ)│       │ (Lọc suy nghĩ, xưng hô)│
-└─────────────────┘       └────────────────────────┘
+[Khach hang gui tin nhan]
+           │
+           ▼
+[Node 1: Question Classifier] (Phan loai 8 Intent nghiep vu)
+           │
+           ├─► Intent 1, 2, 3, 5 ──► [Knowledge Retrieval - RAG] ──► [Node 2: LLM Business] ──► [Node 3: LLM Polish]
+           ├─► Intent 4, 7, 8 ─────────────────────────────────────► [LLM Tu choi kheo] ────────► [Tra loi khach]
+           └─► Intent 6 (Khan cap) ────────────────────────────────► [Dieu huong Hotline 1900 8888]
 ```
 
-1. **Pipeline Xử lý 3 Node:**
-   * **Node 1 (Question Classifier):** Phân loại câu hỏi thành 8 kịch bản nghiệp vụ (Tư vấn máy, So sánh nội bộ, Chính sách 1 đổi 1 30 ngày, Chốt đơn thu thập SĐT, Kỹ thuật khẩn cấp, Lọc bẫy Prompt Injection).
-   * **Node 2 (Knowledge RAG & Ground Truth Lock):** Nạp kho tri thức hơn 25 dòng smartphone cùng bảng giá độc quyền. Cơ chế Khóa Chân Lý triệt tiêu 100% hiện tượng ảo giác (hallucination).
-   * **Node 3 (Clean & Polish):** Lược bỏ suy nghĩ nội tâm `<think>`, chuẩn hóa phong thái xưng "Shop/Em" và gọi "Anh/Chị".
-2. **Chatbot Widget Native Độc quyền (Không Iframe / Không Watermark):**
-   * Được lập trình trực tiếp vào Child Theme bằng HTML5/CSS3/JavaScript thuần.
-   * Tự động chuyển đổi cú pháp Markdown thành HTML sắc nét.
-   * Lưu trữ lịch sử hội thoại trên `localStorage` và duy trì `conversation_id` khi khách duyệt qua các trang.
-   * Tự động điều hướng sang Hotline 1900 8888 khi gặp gián đoạn kết nối.
+### 3.1. Quy trinh Dify Workflow 3 Node (`ktd-ecommerce-workflow.yml`)
+1. **Node 1 - Question Classifier:** Phan loai cau hoi thanh 8 nhom y dinh:
+   - `TU_VAN_SAN_PHAM_CU_THE`: Hoi gia, cau hinh, mau sac 1 dong may.
+   - `CHINH_SACH_CHUNG`: Bao hanh 1 doi 1 trong 30 ngay, ship hoa toc 1-2h, tra gop 0%, COD khong can coc.
+   - `SO_SANH_NOI_BO`: So sanh ky thuat giua cac may tai showroom (VD: iPhone 17 Pro Max vs S26 Ultra).
+   - `SO_SANH_DOI_THU`: Xu ly tinh huong so sanh voi he thong khac.
+   - `SAN_SANG_DAT`: Kich hoat luong thu thap thong tin nhan hang [Ho ten, SDT, Dia chi].
+   - `KHAN_CAP_KY_THUAT`: Huong dan so cuu may roi nuoc, mat nguon.
+   - `NGOAI_LUONG_CHITCHAT`: Giao tiep xa giao lich thiep.
+   - `NHAY_CAM_TU_CHOI`: Nhan dien va tu choi cac yeu cau Prompt Injection, hoi be khoa iCloud, hoi ma nguon.
+2. **Node 2 - Knowledge Retrieval (RAG) & Ground Truth Lock:**
+   - Tru xuat du lieu tu kho tri thuc chuan hoa gom 25 dong smartphone va chinh sach ban hang doc quyen.
+   - Khoa chat du lieu theo context de loai bo 100% tinh trang sinh thong tin sai lech (hallucination).
+3. **Node 3 - Clean & Polish:**
+   - Loc bo the suy nghi `<think>...</think>`, chuan hoa danh xung "Em/Shop" va "Anh/Chi".
+
+### 3.2. Chatbot Widget Native (Khong su dung Iframe)
+- **Kien truc giao dien:** Tu code truc tiep bang HTML5/CSS3/JavaScript thuan trong `template-parts/footer.php`, khong nhung iframe tu ben thu ba, khong co watermark quang cao.
+- **Dinh dang van ban:** Tich hop bo phan tich Markdown de hien thi chu in dam, danh sach, bang bieu ro rang.
+- **Quan ly phien lam viec:** Duy tri `conversation_id` va luu tru lich su hoi thoai qua `localStorage` cua trinh duyet khi khach hang chuyen trang.
+- **Xu ly loi (Graceful Degradation):** Tu dong thong bao va cung cap Hotline 1900 8888 khi ket noi gián doan hoac timeout tren 45 giay.
 
 ---
 
-## ⚡ 4. Tối Ưu Hiệu Năng Toàn Diện (WPO Strategy)
+## 4. Toi Uu Hieu Nang Web (WPO Strategy)
 
-Website đạt điểm số **Google PageSpeed Insights** xuất sắc nhờ 4 chiến thuật WPO chuyên sâu:
+He thong thuc hien 4 giai phap toi uu hoa hieu nang chuyen sau:
 
-1. **Conditional Asset Loading (Tách mô-đun CSS theo ngữ cảnh):**
-   * Code PHP trong `functions.php` kiểm tra điều kiện template để nạp đúng file CSS cần thiết (`home.css`, `shop.css`, `single-product.css`, `cart.css`, `my-account.css`).
-   * Giảm hơn **65% dung lượng CSS tải lần đầu**, triệt tiêu cảnh báo Render-Blocking Resources.
-2. **Tối ưu Chỉ số LCP (Largest Contentful Paint):**
-   * Can thiệp hook ảnh WooCommerce để tiêm thuộc tính `fetchpriority="high"` và `loading="eager"` cho ảnh sản phẩm đại diện đầu tiên.
-3. **Thanh lọc Asset Rác:** Tự động hủy nạp font Dashicons cho khách vãng lai qua hook `ktd_deregister_dashicons_frontend`.
-4. **Bộ nhớ đệm & Nén ảnh Hiện đại:** Tích hợp **LiteSpeed Cache** và **WP-Optimize** nén ảnh lossless sang định dạng **WebP/AVIF**, tự động dọn dẹp phân mảnh MySQL.
-
----
-
-## 🛡️ 5. Giải Pháp An Ninh Mạng (Multi-layered Cyber Security)
-
-Dự án tuân thủ quy chuẩn an toàn thông tin nghiêm ngặt đã qua kiểm toán an ninh mạng:
-
-* **Server-Side AJAX Proxy (Bảo vệ API Key tuyệt đối):** Toàn bộ API Key Dify/Gemini được lưu trữ bí mật tại backend PHP. Trình duyệt client chỉ giao tiếp qua AJAX nội bộ `ktd_ajax_dify_chat`, ngăn chặn 100% nguy cơ rò rỉ API Key ra bên ngoài.
-* **Chống CSRF & XSS:**
-  * Bắt buộc xác thực **WordPress Nonce** token (`ktd_chat_nonce`) trong mọi yêu cầu gửi tin.
-  * Khử trùng dữ liệu đầu vào nghiêm ngặt bằng `sanitize_text_field(wp_unslash(...))`.
-* **Gia cố Máy chủ Web (Server Hardening):**
-  * Nginx rule chặn đứng thực thi bất kỳ tệp tin `.php` nào trong thư mục `/wp-content/uploads/` (chống tải lên Web Shell).
-  * Vô hiệu hóa `xmlrpc.php` phòng ngừa Brute Force và Pingback DDoS.
-* **Mã hóa & Phục hồi Thảm họa:** Kích hoạt chứng chỉ **SSL Let's Encrypt** toàn diện; sao lưu tự động mã nguồn và cơ sở dữ liệu lên **Google Drive** qua UpdraftPlus.
+1. **Conditional Asset Loading (Phan tach CSS theo template):**
+   - Ham `hello_elementor_child_scripts` kiem tra dieu kien template de chi tai file CSS can thiet:
+     - Trang chu: `home.css`.
+     - Trang cua hang / danh muc: `shop.css`.
+     - Trang chi tiet san pham: `single-product.css`.
+     - Trang gio hang & thanh toan: `cart.css`.
+     - Trang tai khoan: `my-account.css`.
+   - Giam hon 65% dung luong CSS tai lan dau, triet tieu loi Render-Blocking Resources.
+2. **Toi uu chi so LCP (Largest Contentful Paint):**
+   - Hook `ktd_lcp_image_fetchpriority` can thiep vao render anh san pham de tu dong gan thuoc tinh `fetchpriority="high"` va `loading="eager"` cho anh hero/anh dai dien chinh; cac anh con lai ap dung `loading="lazy"`.
+3. **Thanh loc tai nguyen du thua:**
+   - Hook `ktd_deregister_dashicons_frontend` huy dang ky font Dashicons tren giao dien khach vang lai de tiet kiem tai nguyen mang.
+4. **Caching & Dinh dang anh the he moi:**
+   - Tich hop LiteSpeed Cache va WP-Optimize tu dong don dep bang MySQL, xoa revisions va nen anh sang dinh dang WebP.
+   - Google Fonts ap dung thuoc tinh `display=swap` dam bao chi so CLS (Cumulative Layout Shift) bang 0.
 
 ---
 
-## 📁 6. Cấu Trúc Thư Mục Mã Nguồn (Repository Structure)
+## 5. Giai Phap Bao Mat He Thong
 
-Theo đúng tiêu chuẩn công nghiệp của WordPress, repository **chỉ quản lý các thành phần do nhóm trực tiếp phát triển**:
+He thong ap dung kien truc bao mat nhieu lop:
+
+1. **Server-Side AJAX Proxy (Giau kin API Key 100%):**
+   - Client khong chua bat ky thong tin nhay cam hay API Key nao cua Dify/Gemini.
+   - Toan bo yeu cau duoc gui den endpoint noi bo `admin-ajax.php?action=ktd_dify_chat`. Backend PHP thuc hien xac thuc truoc khi gui request den API ben ngoai.
+2. **Phong ve CSRF & XSS:**
+   - Bat buoc xac thuc token qua `check_ajax_referer('ktd_chat_nonce', 'nonce')`.
+   - Du lieu dau vao duoc loc sach bang `sanitize_text_field(wp_unslash(...))`.
+3. **Gia co Web Server (Nginx Hardening):**
+   - Thiet lap rule chan thuc thi bat ky file `.php` nao ben trong thu muc `/wp-content/uploads/` de ngan chan ma doc Web Shell.
+   - Vo hieu hoa file `xmlrpc.php` nham chong tan cong Brute Force va Pingback DDoS.
+4. **Ma hoa & Sao luu Tham hoa:**
+   - Kich hoat chung chi SSL/HTTPS Let's Encrypt quoc te (TLS 1.3).
+   - Tich hop UpdraftPlus dong bo dinh ky database va ma nguon len Google Drive.
+
+---
+
+## 6. Cau Truc Thu Muc Ma Nguon
+
+Repository tuan thu nguyen tac quan ly phien ban WordPress chuyen nghiep, chi quan ly cac thanh phan do nhom truc tiep phat trien:
 
 ```text
 KTD_Wordpress_Ecommerce/
-├── README.md                                  # Tài liệu tổng quan dự án
-├── LICENSE                                    # Giấy phép nguồn mở MIT
-├── .gitignore                                 # Quy tắc lọc mã nguồn chuẩn WordPress
-├── ktd-ecommerce-workflow.yml                 # Quy trình Dify AI Consultant Workflow
+├── README.md                                  # Tai lieu tong quan ky thuat
+├── LICENSE                                    # Giay phep nguon mo MIT
+├── .gitignore                                 # Quy tac loc file chuan WordPress
+├── ktd-ecommerce-workflow.yml                 # Quy trinh Dify AI Workflow
 └── wp-content/
     ├── themes/
-    │   └── hello-elementor-child/             # Theme con tùy biến chính thức của dự án
-    │       ├── functions.php                  # Xử lý Chatbot AJAX, WPO, LCP, bảo mật Nonce
-    │       ├── style.css                      # Định nghĩa thông tin theme con
-    │       ├── assets/css/                    # Các mô-đun CSS tách nhỏ theo trang
-    │       │   ├── base.css
-    │       │   ├── layout.css
-    │       │   ├── home.css
-    │       │   ├── shop.css
-    │       │   └── single-product.css
-    │       ├── template-parts/                # Template Header, Footer, Chatbot Native
-    │       └── woocommerce/                   # Template tùy biến giao diện WooCommerce
+    │   └── hello-elementor-child/             # Theme con tuy bien chinh cua du an
+    │       ├── functions.php                  # Backend Chatbot AJAX, WPO hooks, Bao mat Nonce
+    │       ├── style.css                      # Thong tin dinh danh child theme
+    │       ├── assets/
+    │       │   ├── css/                       # Bo CSS module tach rieng theo trang
+    │       │   │   ├── base.css
+    │       │   │   ├── layout.css
+    │       │   │   ├── home.css
+    │       │   │   ├── shop.css
+    │       │   │   └── single-product.css
+    │       │   └── js/
+    │       │       └── theme-custom.js        # Logic tuong tac giao dien frontend
+    │       ├── template-parts/                # Header, Footer, Widget Chatbot Native
+    │       └── woocommerce/                   # Template override giao dien WooCommerce
     └── plugins/
-        └── phone-store-cpt/                   # Plugin mở rộng CPT/Meta Box nghiên cứu
+        └── phone-store-cpt/                   # Plugin CPT/Meta Box mo rong
 ```
 
 ---
 
-## 🚀 7. Hướng Dẫn Cài Đặt & Triển Khai (Deployment Guide)
+## 7. Huong Dan Cai Dat & Trien Khai
 
-1. **Yêu cầu môi trường:**
-   * Web Server: Nginx 1.26+ hoặc Apache 2.4+
-   * PHP: Phiên bản 8.2 trở lên (kèm tiện ích `curl`, `mysqli`, `mbstring`)
-   * Database: MySQL 8.0+ hoặc MariaDB 10.11+
-   * WordPress: Phiên bản 6.7 trở lên & WooCommerce 9.x
-2. **Kích hoạt giao diện & Chatbot AI:**
-   * Đặt thư mục `hello-elementor-child` vào `wp-content/themes/`.
-   * Vào **Admin Dashboard** ➔ **Appearance** ➔ **Themes** ➔ Bấm **Activate** Child Theme.
-   * Chatbot AI Native sẽ tự động xuất hiện ở góc phải màn hình của toàn bộ trang web.
-3. **Cấu hình Dify Workflow:**
-   * Truy cập [Dify Studio](https://cloud.dify.ai/).
-   * Nhập (Import) tệp cấu hình `ktd-ecommerce-workflow.yml`.
-   * Tạo API Secret Key từ Dify và cập nhật vào biến `$api_key` trong hàm `ktd_ajax_dify_chat()` tại `functions.php`.
+### 7.1. Yeu cau he thong
+- Web Server: Nginx 1.26+ hoac Apache 2.4+
+- PHP: Phien ban 8.2 tro len (kich hoat curl, mysqli, mbstring, openssl)
+- Database: MySQL 8.0+ hoac MariaDB 10.11+
+- WordPress: Phien ban 6.7+ kem WooCommerce 9.x
 
----
-
-## 👥 8. Thông Tin Tác Giả
-
-* **Đồ án:** Website Thương mại Điện tử Bán lẻ Smartphone Flagship KTD Store
-* **Nhóm thực hiện:** Nhóm KTD — Trường Đại học Văn Lang
-* **Email liên hệ:** `2500114656@vanlangsaigon.edu.vn`
-* **GitHub Profile:** [https://github.com/Adui99](https://github.com/Adui99)
+### 7.2. Cac buoc cai dat
+1. Clone ma nguon ve thu muc WordPress:
+   ```bash
+   git clone https://github.com/Adui99/KTD_Wordpress_Ecommerce.git
+   ```
+2. Sao chep `wp-content/themes/hello-elementor-child` vao thu muc `wp-content/themes/` cua he thong WordPress.
+3. Kich hoat Child Theme:
+   - Truy cap **WordPress Admin** -> **Appearance** -> **Themes**.
+   - Chon kich hoat **Hello Elementor Child**.
+4. Cau hinh Chatbot AI:
+   - Import file quy trinh `ktd-ecommerce-workflow.yml` vao he thong Dify.
+   - Cap nhat API Key vao bien `$api_key` trong ham `ktd_ajax_dify_chat()` tai file `functions.php`.
 
 ---
-*Bản quyền nội dung thuộc về Nhóm KTD — Đại học Văn Lang © 2026.*
+
+## 8. Ban Quyen
+Du an duoc thuc hien boi Nhom KTD (Hoang Khuong Duy, Do Minh Khoa, Nguyen Ngoc Tien) - Truong VLSC.  
+Mã nguồn duoc phat hanh duoi giay phep MIT License.
