@@ -1,0 +1,339 @@
+/**
+ * ==============================================================================
+ * Module: About Us Page
+ * Description: Brand story, core values, mission/vision, team showcase, milestones, and CTA banner
+ * Theme: Hello Elementor Child (KTD E-Commerce)
+ * ==============================================================================
+ */
+
+/* ==========================================================================
+   5. About Page Styling
+   ========================================================================== */
+.ktd-about-hero {
+  background: linear-gradient(180deg, #f8fafc 0%, #ffffff 100%);
+  padding: 64px 0 48px;
+  text-align: center;
+  border-bottom: 1px solid var(--ktd-border);
+}
+
+.ktd-about-hero-content {
+  max-width: 760px;
+  margin: 0 auto;
+}
+
+.ktd-about-hero-title {
+  font-family: var(--ktd-font-heading);
+  font-size: 2.3rem;
+  font-weight: 700;
+  color: var(--ktd-dark);
+  line-height: 1.3;
+  margin: 0 0 16px;
+  letter-spacing: -0.5px;
+}
+
+.ktd-about-hero-desc {
+  font-family: 'Be Vietnam Pro', sans-serif;
+  font-size: 1.05rem;
+  color: var(--ktd-text-muted);
+  line-height: 1.7;
+}
+
+/* Section Header */
+.ktd-section-header {
+  text-align: center;
+  max-width: 650px;
+  margin: 0 auto 40px;
+}
+
+.ktd-section-title {
+  font-family: var(--ktd-font-heading);
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: var(--ktd-dark);
+  margin: 0 0 10px;
+}
+
+.ktd-section-subtitle {
+  font-family: 'Be Vietnam Pro', sans-serif;
+  font-size: 0.95rem;
+  color: var(--ktd-text-muted);
+  line-height: 1.6;
+  margin: 0;
+}
+
+/* Commitments Grid */
+.ktd-about-commitments {
+  padding: 64px 0;
+  scroll-margin-top: 90px;
+}
+
+.ktd-commitments-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 26px;
+}
+
+.ktd-commit-card {
+  background: #ffffff;
+  border: 1px solid #f1f5f9;
+  border-radius: 16px;
+  padding: 32px 24px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.02);
+  transition: all 0.3s ease;
+  display: flex;
+  flex-direction: column;
+}
+
+.ktd-commit-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.06);
+  border-color: #e2e8f0;
+}
+
+.ktd-commit-icon {
+  width: 52px;
+  height: 52px;
+  border-radius: 14px;
+  background: rgba(37, 99, 235, 0.08);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+
+.ktd-commit-icon svg {
+  width: 26px;
+  height: 26px;
+  stroke: var(--ktd-primary);
+}
+
+.ktd-commit-title {
+  font-family: var(--ktd-font-heading);
+  font-size: 1.15rem;
+  font-weight: 600;
+  color: var(--ktd-dark);
+  margin: 0 0 12px;
+  line-height: 1.35;
+}
+
+.ktd-commit-desc {
+  font-family: 'Be Vietnam Pro', sans-serif;
+  font-size: 0.9rem;
+  color: var(--ktd-text-muted);
+  line-height: 1.65;
+  margin: 0;
+}
+
+/* Stats Row */
+.ktd-about-stats {
+  background: #0f172a;
+  padding: 48px 0;
+  border-radius: 20px;
+  margin: 0 28px 64px;
+}
+
+.ktd-stats-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
+  text-align: center;
+}
+
+.ktd-stat-number {
+  font-family: var(--ktd-font-heading);
+  font-size: 2.2rem;
+  font-weight: 700;
+  color: #38bdf8;
+  margin-bottom: 6px;
+}
+
+.ktd-stat-label {
+  font-family: 'Be Vietnam Pro', sans-serif;
+  font-size: 0.88rem;
+  color: #94a3b8;
+}
+
+/* Showroom Card */
+.ktd-about-showroom {
+  margin-bottom: 64px;
+}
+
+.ktd-showroom-card {
+  background: #ffffff;
+  border: 1px solid #f1f5f9;
+  border-radius: 20px;
+  padding: 48px 40px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.03);
+}
+
+.ktd-showroom-title {
+  font-family: var(--ktd-font-heading);
+  font-size: 1.85rem;
+  font-weight: 700;
+  color: var(--ktd-dark);
+  margin: 0 0 16px;
+}
+
+.ktd-showroom-desc {
+  font-family: 'Be Vietnam Pro', sans-serif;
+  font-size: 1rem;
+  color: #475569;
+  line-height: 1.7;
+  margin-bottom: 28px;
+}
+
+.ktd-showroom-features {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 16px;
+}
+
+.ktd-s-feature {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-family: 'Be Vietnam Pro', sans-serif;
+  font-size: 0.95rem;
+  font-weight: 500;
+  color: #334155;
+}
+
+.ktd-s-feature svg {
+  width: 20px;
+  height: 20px;
+  color: #10b981;
+  flex-shrink: 0;
+}
+
+/* About CTA */
+.ktd-about-cta {
+  margin-bottom: 64px;
+}
+
+.ktd-cta-inner {
+  background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+  border-radius: 20px;
+  padding: 48px 36px;
+  text-align: center;
+}
+
+.ktd-cta-title {
+  font-family: var(--ktd-font-heading);
+  font-size: 1.9rem;
+  font-weight: 700;
+  color: #ffffff;
+  margin: 0 0 12px;
+}
+
+.ktd-cta-desc {
+  font-family: 'Be Vietnam Pro', sans-serif;
+  font-size: 1rem;
+  color: #94a3b8;
+  margin: 0 auto 28px;
+  max-width: 540px;
+}
+
+.ktd-cta-actions {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+
+/* ==========================================================================
+   About Page Responsive Adaptations (Tablet <= 991px, Mobile <= 767px, Small Mobile <= 480px)
+   ========================================================================== */
+
+/* Tablet & Below (<= 991px) */
+@media (max-width: 991px) {
+  .ktd-about-hero {
+    padding: 48px 20px 36px !important;
+  }
+  .ktd-about-stats {
+    margin: 0 16px 48px !important;
+    padding: 36px 20px !important;
+  }
+  .ktd-stats-grid {
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 24px !important;
+  }
+  .ktd-showroom-card {
+    padding: 36px 28px !important;
+  }
+  .ktd-cta-inner {
+    padding: 36px 24px !important;
+  }
+}
+
+/* Mobile Devices (<= 767px) */
+@media (max-width: 767px) {
+  .ktd-about-hero-title {
+    font-size: 1.7rem !important;
+    margin-bottom: 12px !important;
+  }
+  .ktd-about-hero-desc {
+    font-size: 0.95rem !important;
+  }
+  .ktd-section-title {
+    font-size: 1.45rem !important;
+  }
+  .ktd-section-header {
+    margin-bottom: 28px !important;
+  }
+  .ktd-about-commitments {
+    padding: 40px 0 !important;
+  }
+  .ktd-commitments-grid {
+    grid-template-columns: 1fr !important;
+    gap: 16px !important;
+  }
+  .ktd-commit-card {
+    padding: 24px 20px !important;
+  }
+  .ktd-showroom-title {
+    font-size: 1.45rem !important;
+  }
+  .ktd-showroom-card {
+    padding: 28px 18px !important;
+    border-radius: 16px !important;
+  }
+  .ktd-showroom-features {
+    grid-template-columns: 1fr !important;
+    gap: 12px !important;
+  }
+  .ktd-cta-title {
+    font-size: 1.45rem !important;
+  }
+  .ktd-cta-inner {
+    padding: 32px 18px !important;
+    border-radius: 16px !important;
+  }
+  .ktd-cta-actions {
+    flex-direction: column !important;
+    width: 100% !important;
+  }
+  .ktd-cta-actions a {
+    width: 100% !important;
+    box-sizing: border-box !important;
+    justify-content: center !important;
+    text-align: center !important;
+  }
+}
+
+/* Small Mobile (<= 480px) */
+@media (max-width: 480px) {
+  .ktd-stats-grid {
+    grid-template-columns: 1fr !important;
+    gap: 20px !important;
+  }
+  .ktd-stat-number {
+    font-size: 1.85rem !important;
+  }
+  .ktd-about-stats {
+    margin: 0 12px 36px !important;
+    padding: 28px 16px !important;
+    border-radius: 16px !important;
+  }
+}

@@ -1,0 +1,720 @@
+/**
+ * ==============================================================================
+ * Module: WooCommerce Shop & Catalog
+ * Description: Product catalog archive, product cards, category filters, layout grid, and pagination
+ * Theme: Hello Elementor Child (KTD E-Commerce)
+ * ==============================================================================
+ */
+
+/* ==========================================================================
+   4. Products (Shop) Page Styling
+   ========================================================================== */
+.ktd-shop-hero {
+  background: linear-gradient(180deg, #f8fafc 0%, #ffffff 100%);
+  border-bottom: 1px solid var(--ktd-border);
+  padding: 48px 0 36px;
+  text-align: center;
+  margin-bottom: 36px;
+}
+
+.ktd-shop-hero-title {
+  font-family: var(--ktd-font-heading);
+  font-size: 2.2rem;
+  font-weight: 700;
+  color: var(--ktd-dark);
+  margin: 0 0 12px;
+  letter-spacing: -0.5px;
+}
+
+.ktd-shop-hero-desc {
+  font-family: 'Be Vietnam Pro', sans-serif;
+  font-size: 1rem;
+  color: var(--ktd-text-muted);
+  max-width: 680px;
+  margin: 0 auto;
+  line-height: 1.6;
+}
+
+/* Shop Layout: 2 Columns (Sidebar + Grid) */
+.ktd-shop-wrapper {
+  margin-bottom: 60px;
+}
+
+.ktd-shop-layout {
+  display: flex;
+  align-items: flex-start;
+  gap: 36px;
+}
+
+/* Sidebar Styling */
+.ktd-shop-sidebar {
+  flex: 0 0 260px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.ktd-sidebar-widget {
+  background: #ffffff;
+  border: 1px solid #f1f5f9;
+  border-radius: 16px;
+  padding: 22px;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.02);
+}
+
+.ktd-sidebar-title {
+  font-family: var(--ktd-font-heading);
+  font-size: 1.05rem;
+  font-weight: 600;
+  color: var(--ktd-dark);
+  margin: 0 0 16px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid #f1f5f9;
+}
+
+.ktd-filter-list {
+  list-style: none !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.ktd-filter-list li a {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-family: 'Be Vietnam Pro', sans-serif;
+  font-size: 0.92rem;
+  color: #475569;
+  text-decoration: none !important;
+  padding: 6px 10px;
+  border-radius: 8px;
+  transition: all 0.2s ease;
+}
+
+.ktd-filter-list li a:hover,
+.ktd-filter-list li a.active {
+  color: var(--ktd-primary);
+  background: rgba(37, 99, 235, 0.07);
+  font-weight: 600;
+}
+
+.ktd-term-count {
+  font-size: 0.8rem;
+  color: #94a3b8;
+}
+
+/* Price Filter Widget & Dual-Handle Slider */
+.ktd-sidebar-title-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin: 0 0 16px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid #f1f5f9;
+}
+
+.ktd-sidebar-title-row .ktd-sidebar-title {
+  margin: 0;
+  padding-bottom: 0;
+  border-bottom: none;
+}
+
+.ktd-price-reset-link {
+  font-family: var(--ktd-font-body);
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: #ef4444;
+  text-decoration: none !important;
+  background: #fef2f2;
+  padding: 3px 9px;
+  border-radius: 6px;
+  transition: all 0.2s ease;
+}
+
+.ktd-price-reset-link:hover {
+  background: #fee2e2;
+  color: #dc2626;
+}
+
+.ktd-dual-slider-wrap {
+  margin-top: 8px;
+}
+
+.ktd-slider-track-box {
+  position: relative;
+  height: 28px;
+  display: flex;
+  align-items: center;
+  margin: 8px 0;
+}
+
+.ktd-slider-bar-bg {
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 6px;
+  background: #e2e8f0;
+  border-radius: 9999px;
+  z-index: 1;
+}
+
+.ktd-slider-bar-highlight {
+  position: absolute;
+  height: 6px;
+  background: linear-gradient(90deg, #2563eb 0%, #3b82f6 100%);
+  border-radius: 9999px;
+  z-index: 2;
+  left: 0%;
+  right: 0%;
+  transition: left 0.05s ease, right 0.05s ease;
+}
+
+.ktd-range-thumb {
+  position: absolute;
+  width: 100%;
+  height: 6px;
+  background: none;
+  pointer-events: none;
+  -webkit-appearance: none;
+  appearance: none;
+  z-index: 3;
+  margin: 0;
+  padding: 0;
+}
+
+.ktd-range-thumb::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: #ffffff;
+  border: 2.5px solid #2563eb;
+  box-shadow: 0 2px 6px rgba(37, 99, 235, 0.35);
+  cursor: pointer;
+  pointer-events: auto;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.ktd-range-thumb::-webkit-slider-thumb:hover {
+  transform: scale(1.18);
+  box-shadow: 0 4px 10px rgba(37, 99, 235, 0.45);
+}
+
+.ktd-range-thumb::-webkit-slider-thumb:active {
+  transform: scale(1.22);
+  background: #2563eb;
+  border-color: #ffffff;
+}
+
+.ktd-range-thumb::-moz-range-thumb {
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: #ffffff;
+  border: 2.5px solid #2563eb;
+  box-shadow: 0 2px 6px rgba(37, 99, 235, 0.35);
+  cursor: pointer;
+  pointer-events: auto;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.ktd-range-thumb::-moz-range-thumb:hover {
+  transform: scale(1.18);
+  box-shadow: 0 4px 10px rgba(37, 99, 235, 0.45);
+}
+
+.ktd-slider-price-labels {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 6px;
+  margin-top: 12px;
+  margin-bottom: 14px;
+}
+
+.ktd-price-badge {
+  flex: 1;
+  font-family: var(--ktd-font-heading);
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: #1e293b;
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  padding: 6px 4px;
+  text-align: center;
+  white-space: nowrap;
+}
+
+.ktd-price-sep {
+  font-family: var(--ktd-font-heading);
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #94a3b8;
+}
+
+.ktd-price-apply-btn {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  background-color: var(--ktd-primary);
+  color: #ffffff;
+  border: none;
+  border-radius: 10px;
+  padding: 10px 16px;
+  font-family: var(--ktd-font-body);
+  font-size: 0.88rem;
+  font-weight: 600;
+  cursor: pointer;
+  box-shadow: 0 3px 10px rgba(37, 99, 235, 0.22);
+  transition: all 0.2s ease;
+}
+
+.ktd-price-apply-btn:hover {
+  background-color: var(--ktd-primary-hover);
+  transform: translateY(-1px);
+  box-shadow: 0 6px 16px rgba(37, 99, 235, 0.32);
+}
+
+.ktd-price-apply-btn:active {
+  transform: translateY(0);
+}
+
+/* Sidebar Perk / Commitments */
+.ktd-sidebar-perk {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 12px;
+  font-family: 'Be Vietnam Pro', sans-serif;
+  font-size: 0.88rem;
+  color: #334155;
+}
+
+.ktd-sidebar-perk svg {
+  stroke: var(--ktd-primary);
+  flex-shrink: 0;
+}
+
+/* Mobile Filter Toggle */
+.ktd-mobile-filter-bar {
+  display: none;
+  margin-bottom: 20px;
+}
+
+.ktd-mobile-filter-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: #ffffff;
+  border: 1px solid #cbd5e1;
+  padding: 10px 20px;
+  border-radius: 9999px;
+  font-family: 'Be Vietnam Pro', sans-serif;
+  font-size: 0.92rem;
+  font-weight: 600;
+  color: var(--ktd-dark);
+  cursor: pointer;
+}
+
+/* Main Products Area */
+.ktd-shop-main {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+/* Result Count & Ordering Bar */
+.woocommerce-result-count {
+  font-family: 'Be Vietnam Pro', sans-serif;
+  font-size: 0.9rem;
+  color: var(--ktd-text-muted);
+  margin-bottom: 20px;
+  float: left;
+}
+
+.woocommerce-ordering {
+  float: right;
+  margin-bottom: 24px;
+}
+
+.woocommerce-ordering select {
+  font-family: 'Be Vietnam Pro', sans-serif;
+  font-size: 0.9rem;
+  padding: 8px 16px;
+  border-radius: 10px;
+  border: 1px solid #e2e8f0;
+  background-color: #ffffff;
+  color: #334155;
+  cursor: pointer;
+  outline: none;
+}
+
+.woocommerce-ordering select:focus {
+  border-color: var(--ktd-primary);
+}
+
+/* WooCommerce Product Grid */
+.woocommerce ul.products,
+ul.products {
+  display: grid !important;
+  grid-template-columns: repeat(auto-fill, minmax(230px, 1fr)) !important;
+  gap: 24px !important;
+  margin: 0 0 40px !important;
+  padding: 0 !important;
+  list-style: none !important;
+  clear: both;
+}
+
+.woocommerce ul.products::before,
+.woocommerce ul.products::after {
+  display: none !important;
+}
+
+/* Product Card */
+.woocommerce ul.products li.product,
+ul.products li.product {
+  display: flex !important;
+  flex-direction: column !important;
+  background: #ffffff !important;
+  border-radius: 16px !important;
+  border: 1px solid #f1f5f9 !important;
+  padding: 22px 18px !important;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.03) !important;
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1) !important;
+  margin: 0 !important;
+  width: 100% !important;
+  box-sizing: border-box !important;
+  position: relative !important;
+  text-align: center;
+}
+
+.woocommerce ul.products li.product:hover,
+ul.products li.product:hover {
+  transform: translateY(-6px) !important;
+  box-shadow: 0 14px 32px rgba(0, 0, 0, 0.08) !important;
+  border-color: #e2e8f0 !important;
+}
+
+/* Product Thumbnail */
+.woocommerce ul.products li.product a img,
+ul.products li.product a img {
+  max-height: 200px !important;
+  width: auto !important;
+  height: 200px !important;
+  object-fit: contain !important;
+  margin: 0 auto 16px !important;
+  display: block !important;
+  transition: transform 0.35s ease !important;
+}
+
+.woocommerce ul.products li.product:hover a img {
+  transform: scale(1.05);
+}
+
+/* Product Title */
+.woocommerce ul.products li.product .woocommerce-loop-product__title,
+ul.products li.product h2 {
+  font-family: var(--ktd-font-heading) !important;
+  font-size: 1.05rem !important;
+  font-weight: 600 !important;
+  color: var(--ktd-dark) !important;
+  line-height: 1.4 !important;
+  min-height: 2.8em !important;
+  margin: 0 0 10px !important;
+  padding: 0 !important;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Product Price */
+.woocommerce ul.products li.product .price,
+ul.products li.product .price {
+  font-family: 'Be Vietnam Pro', sans-serif !important;
+  font-size: 1.05rem !important;
+  font-weight: 700 !important;
+  color: var(--ktd-primary) !important;
+  margin-bottom: 16px !important;
+  display: block;
+}
+
+.woocommerce ul.products li.product .price del,
+ul.products li.product .price del {
+  color: #94a3b8 !important;
+  font-size: 0.88rem !important;
+  font-weight: 400 !important;
+  margin-right: 6px;
+}
+
+.woocommerce ul.products li.product .price ins,
+ul.products li.product .price ins {
+  text-decoration: none !important;
+  color: #ef4444 !important;
+}
+
+/* Add to Cart Button */
+.woocommerce ul.products li.product .button,
+ul.products li.product .button {
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  margin-top: auto !important;
+  padding: 10px 22px !important;
+  border-radius: 9999px !important;
+  background-color: var(--ktd-primary) !important;
+  color: #ffffff !important;
+  font-family: 'Be Vietnam Pro', sans-serif !important;
+  font-size: 0.88rem !important;
+  font-weight: 600 !important;
+  text-decoration: none !important;
+  border: 1.5px solid var(--ktd-primary) !important;
+  box-shadow: 0 4px 12px rgba(37, 99, 235, 0.22) !important;
+  transition: all 0.25s ease !important;
+  cursor: pointer !important;
+}
+
+.woocommerce ul.products li.product .button:hover {
+  background-color: var(--ktd-primary-hover) !important;
+  border-color: var(--ktd-primary-hover) !important;
+  transform: translateY(-2px) !important;
+  box-shadow: 0 6px 18px rgba(37, 99, 235, 0.35) !important;
+}
+
+/* Variable Product Button - Outline/Ghost Style (Xem chi tiết) */
+.woocommerce ul.products li.product .button.product_type_variable,
+ul.products li.product .button.product_type_variable {
+  background-color: transparent !important;
+  color: var(--ktd-primary) !important;
+  border: 1.5px solid var(--ktd-primary) !important;
+  box-shadow: none !important;
+}
+
+.woocommerce ul.products li.product .button.product_type_variable:hover,
+ul.products li.product .button.product_type_variable:hover {
+  background-color: var(--ktd-primary) !important;
+  border-color: var(--ktd-primary) !important;
+  color: #ffffff !important;
+  transform: translateY(-2px) !important;
+  box-shadow: 0 4px 14px rgba(37, 99, 235, 0.25) !important;
+}
+
+/* Sale Badge */
+.woocommerce ul.products li.product span.onsale,
+.woocommerce span.onsale,
+span.onsale {
+  position: absolute !important;
+  top: 12px !important;
+  left: 12px !important;
+  right: auto !important;
+  bottom: auto !important;
+  width: auto !important;
+  min-width: unset !important;
+  min-height: unset !important;
+  height: auto !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  line-height: 1 !important;
+  padding: 4px 10px !important;
+  margin: 0 !important;
+  font-family: var(--ktd-font-body) !important;
+  font-size: 0.72rem !important;
+  font-weight: 700 !important;
+  letter-spacing: 0.5px !important;
+  text-transform: uppercase !important;
+  color: #ffffff !important;
+  background-color: #ef4444 !important;
+  border-radius: 9999px !important;
+  box-shadow: 0 2px 8px rgba(239, 68, 68, 0.25) !important;
+  z-index: 9 !important;
+}
+
+/* Pagination */
+.woocommerce-pagination {
+  text-align: center;
+  margin-top: 32px;
+  border: none !important;
+}
+
+.woocommerce-pagination ul.page-numbers {
+  display: inline-flex;
+  gap: 8px;
+  list-style: none !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  border: none !important;
+  box-shadow: none !important;
+}
+
+.woocommerce-pagination ul.page-numbers li {
+  border: none !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  display: inline-flex !important;
+}
+
+.woocommerce-pagination ul.page-numbers li span,
+.woocommerce-pagination ul.page-numbers li a {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  font-family: 'Be Vietnam Pro', sans-serif;
+  font-size: 0.92rem;
+  font-weight: 600;
+  text-decoration: none !important;
+  border: 1px solid #e2e8f0;
+  color: #334155;
+  background-color: #ffffff;
+  transition: all 0.2s ease;
+}
+
+.woocommerce-pagination ul.page-numbers li a:hover {
+  background-color: #f1f5f9;
+  border-color: #cbd5e1;
+  color: var(--ktd-primary);
+}
+
+.woocommerce-pagination ul.page-numbers li span.current {
+  background-color: var(--ktd-primary);
+  color: #ffffff;
+  border-color: var(--ktd-primary);
+}
+
+
+/* ==========================================================================
+   Shop Responsive Adaptations (Tablet & Mobile)
+   ========================================================================== */
+@media (max-width: 991px) {
+  .ktd-shop-layout {
+    flex-direction: column !important;
+  }
+  .ktd-shop-sidebar {
+    display: none;
+    width: 100% !important;
+    margin-bottom: 24px !important;
+  }
+  .ktd-shop-sidebar.open {
+    display: block !important;
+  }
+  .ktd-mobile-filter-bar {
+    display: flex !important;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 16px !important;
+  }
+  .woocommerce ul.products,
+  ul.products {
+    grid-template-columns: repeat(3, 1fr) !important;
+    gap: 16px !important;
+  }
+}
+
+@media (max-width: 767px) {
+  .ktd-shop-hero {
+    padding: 24px 16px !important;
+    margin-bottom: 20px !important;
+  }
+  .ktd-shop-hero-title {
+    font-size: 1.55rem !important;
+  }
+  .ktd-shop-hero-desc {
+    font-size: 0.88rem !important;
+  }
+  .woocommerce-result-count {
+    float: none !important;
+    margin-bottom: 10px !important;
+    font-size: 0.84rem !important;
+  }
+  .woocommerce-ordering {
+    float: none !important;
+    width: 100% !important;
+    margin-bottom: 16px !important;
+  }
+  .woocommerce-ordering select {
+    width: 100% !important;
+    height: 42px !important;
+    font-size: 0.88rem !important;
+  }
+  /* Lưới 2 cột chuẩn sàn thương mại điện tử trên mobile */
+  .woocommerce ul.products,
+  ul.products {
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 10px !important;
+    margin-bottom: 28px !important;
+  }
+  .woocommerce ul.products li.product,
+  ul.products li.product {
+    padding: 12px 10px !important;
+    border-radius: 12px !important;
+  }
+  .woocommerce ul.products li.product img,
+  ul.products li.product img {
+    max-height: 155px !important;
+    margin-bottom: 10px !important;
+  }
+  .woocommerce ul.products li.product .woocommerce-loop-product__title,
+  ul.products li.product .woocommerce-loop-product__title {
+    font-size: 0.88rem !important;
+    line-height: 1.35 !important;
+    min-height: 2.7em !important;
+    margin-bottom: 6px !important;
+  }
+  .woocommerce ul.products li.product .price,
+  ul.products li.product .price {
+    font-size: 0.95rem !important;
+    margin-bottom: 10px !important;
+  }
+  .woocommerce ul.products li.product .button,
+  ul.products li.product .button {
+    padding: 8px 12px !important;
+    font-size: 0.82rem !important;
+    border-radius: 8px !important;
+    height: 38px !important;
+  }
+  .woocommerce-pagination ul.page-numbers {
+    gap: 6px !important;
+  }
+  .woocommerce-pagination ul.page-numbers li a,
+  .woocommerce-pagination ul.page-numbers li span {
+    width: 36px !important;
+    height: 36px !important;
+    font-size: 0.86rem !important;
+  }
+}
+
+@media (max-width: 480px) {
+  .woocommerce ul.products,
+  ul.products {
+    gap: 8px !important;
+  }
+  .woocommerce ul.products li.product,
+  ul.products li.product {
+    padding: 10px 8px !important;
+  }
+  .woocommerce ul.products li.product img,
+  ul.products li.product img {
+    max-height: 135px !important;
+  }
+  .woocommerce ul.products li.product .woocommerce-loop-product__title,
+  ul.products li.product .woocommerce-loop-product__title {
+    font-size: 0.84rem !important;
+  }
+  .woocommerce ul.products li.product .price,
+  ul.products li.product .price {
+    font-size: 0.9rem !important;
+  }
+  .woocommerce ul.products li.product .button,
+  ul.products li.product .button {
+    font-size: 0.78rem !important;
+    height: 36px !important;
+  }
+}

@@ -1,0 +1,176 @@
+﻿/**
+ * ==============================================================================
+ * Module: Base & Design Tokens
+ * Description: Global variables (:root), browser reset, typography, shared UI badges/buttons, and floating navigation
+ * Theme: Hello Elementor Child (KTD E-Commerce)
+ * ==============================================================================
+ */
+
+/* ==========================================================================
+   Global Reset & Base Variables
+   ========================================================================== */
+:root {
+  --ktd-font-heading: 'Montserrat', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --ktd-font-body: 'Be Vietnam Pro', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --ktd-primary: #2563eb;
+  --ktd-primary-hover: #1d4ed8;
+  --ktd-dark: #0f172a;
+  --ktd-dark-surface: #1e293b;
+  --ktd-gray-light: #f8fafc;
+  --ktd-border: #e2e8f0;
+  --ktd-text-main: #1e293b;
+  --ktd-text-muted: #64748b;
+  --ktd-header-height: 72px;
+}
+
+body,
+input,
+textarea,
+select,
+button {
+  font-family: var(--ktd-font-body);
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--ktd-font-heading);
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+#top-trending-flagship,
+.elementor-element-603cf9f8 {
+  scroll-margin-top: 24px;
+}
+
+
+/* ==========================================================================
+   2. Floating Navigation / Scroll to Top
+   ========================================================================== */
+.ktd-floating-nav {
+  position: fixed;
+  bottom: 28px;
+  right: 28px;
+  z-index: 9999;
+  display: flex;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(20px);
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.ktd-floating-nav.visible {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+
+.ktd-float-btn {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: #0f172a;
+  color: #ffffff !important;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none !important;
+  box-shadow: 0 6px 18px rgba(15, 23, 42, 0.28);
+  cursor: pointer;
+  border: none;
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.ktd-float-btn svg {
+  width: 22px;
+  height: 22px;
+  stroke: #ffffff;
+}
+
+.ktd-float-btn:hover {
+  background: #1e293b;
+  transform: translateY(-3px) scale(1.04);
+  box-shadow: 0 8px 24px rgba(15, 23, 42, 0.38);
+}
+
+@media (max-width: 768px) {
+  .ktd-floating-nav {
+    bottom: 20px;
+    right: 20px;
+  }
+}
+
+
+/* ==========================================================================
+   3. Shared Layout Primitives, Badges & Buttons
+   ========================================================================== */
+.ktd-page-container {
+  max-width: 1280px;
+  width: 100%;
+  margin: 0 auto;
+  padding: 0 28px;
+  box-sizing: border-box;
+}
+
+.ktd-section-badge {
+  display: inline-block;
+  font-family: 'Be Vietnam Pro', sans-serif;
+  font-size: 0.76rem;
+  font-weight: 700;
+  letter-spacing: 0.8px;
+  text-transform: uppercase;
+  color: var(--ktd-primary);
+  background: rgba(37, 99, 235, 0.08);
+  padding: 6px 14px;
+  border-radius: 9999px;
+  margin-bottom: 14px;
+}
+
+.ktd-btn-primary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 12px 28px;
+  border-radius: 9999px;
+  background-color: var(--ktd-primary);
+  color: #ffffff !important;
+  font-family: 'Be Vietnam Pro', sans-serif;
+  font-size: 0.95rem;
+  font-weight: 600;
+  text-decoration: none !important;
+  border: none;
+  cursor: pointer;
+  box-shadow: 0 4px 14px rgba(37, 99, 235, 0.25);
+  transition: all 0.25s ease;
+}
+
+.ktd-btn-primary:hover {
+  background-color: var(--ktd-primary-hover);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(37, 99, 235, 0.38);
+}
+
+.ktd-btn-secondary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 12px 28px;
+  border-radius: 9999px;
+  background-color: #ffffff;
+  color: var(--ktd-dark) !important;
+  font-family: 'Be Vietnam Pro', sans-serif;
+  font-size: 0.95rem;
+  font-weight: 600;
+  text-decoration: none !important;
+  border: 1px solid #cbd5e1;
+  cursor: pointer;
+  transition: all 0.25s ease;
+}
+
+.ktd-btn-secondary:hover {
+  border-color: var(--ktd-primary);
+  color: var(--ktd-primary) !important;
+  background-color: #f8fafc;
+}
+

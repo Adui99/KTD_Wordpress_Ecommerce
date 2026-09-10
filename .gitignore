@@ -1,40 +1,70 @@
-# Exclude docs and zip archives
-docs/
-*.zip
+# ==============================================================================
+# KTD STORE E-COMMERCE - GITIGNORE FOR WORDPRESS
+# ==============================================================================
 
-# WordPress - ignore core, configuration, examples, uploads and logs
+# 1. Báo cáo & Tài liệu nội bộ (Strictly exclude all report files)
+docs/
+*bao-cao*.md
+*BaoCao*.md
+*report*.md
+Link_Website*.txt
+scratch/
+logs/
+
+# 2. Backup & Archives
+*.zip
+*.tar.gz
+*.wpress
+*.sql
+
+# 3. WordPress Core Files (Do not commit third-party core files)
 /wp-admin/
-/wp-content/index.php
-/wp-content/languages
-/wp-content/plugins/index.php
-/wp-content/themes/index.php
 /wp-includes/
 /index.php
 /license.txt
 /readme.html
 /wp-*.php
 /xmlrpc.php
-
-# Configuration
 wp-config.php
+wp-config-sample.php
 
-# Example themes & plugins
-/wp-content/themes/twenty*/
-/wp-content/plugins/hello.php
-
-# Uploads & Cache
+# 4. WordPress Content Directories (Keep only custom code)
+/wp-content/index.php
+/wp-content/languages/
+/wp-content/plugins/index.php
+/wp-content/themes/index.php
 /wp-content/uploads/
 /wp-content/cache/
 /wp-content/blogs.dir/
 /wp-content/upgrade/
 /wp-content/backup-db/
+/wp-content/updraft/
 
-# Log files & htaccess
-*.log
-/.htaccess
+# 5. Third-party Themes & Plugins (Keep only hello-elementor-child & phone-store-cpt)
+/wp-content/themes/twenty*/
+/wp-content/themes/hello-elementor/
+/wp-content/plugins/hello.php
+/wp-content/plugins/woocommerce/
+/wp-content/plugins/elementor/
+/wp-content/plugins/jetpack/
+/wp-content/plugins/litespeed-cache/
+/wp-content/plugins/wp-optimize/
+/wp-content/plugins/updraftplus/
+/wp-content/plugins/wordpress-seo/
+/wp-content/plugins/pojo-accessibility/
+/wp-content/plugins/burst-statistics/
+/wp-content/plugins/all-in-one-wp-migration/
+/wp-content/plugins/woocommerce-pdf-invoices-packing-slips/
 
-# OS & Editor generated files
+# 6. Local Server & Environment
+local-site.json
+conf/
+node_modules/
+.env*
+
+# 7. OS & IDE Metadata
 .DS_Store
 Thumbs.db
 .vscode/
 .idea/
+*.log

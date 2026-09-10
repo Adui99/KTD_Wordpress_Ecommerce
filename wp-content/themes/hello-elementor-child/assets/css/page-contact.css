@@ -1,0 +1,354 @@
+/**
+ * ==============================================================================
+ * Module: Contact Us Page
+ * Description: Contact hero, store branch directory, feedback form, Google Map container, and support channels
+ * Theme: Hello Elementor Child (KTD E-Commerce)
+ * ==============================================================================
+ */
+
+/* ==========================================================================
+   6. Contact Page Styling
+   ========================================================================== */
+.ktd-contact-hero {
+  background: linear-gradient(180deg, #f8fafc 0%, #ffffff 100%);
+  padding: 56px 0 40px;
+  text-align: center;
+  border-bottom: 1px solid var(--ktd-border);
+}
+
+.ktd-contact-hero-title {
+  font-family: var(--ktd-font-heading);
+  font-size: 2.3rem;
+  font-weight: 700;
+  color: var(--ktd-dark);
+  margin: 0 0 12px;
+  letter-spacing: -0.5px;
+}
+
+.ktd-contact-hero-desc {
+  font-family: 'Be Vietnam Pro', sans-serif;
+  font-size: 1rem;
+  color: var(--ktd-text-muted);
+  max-width: 650px;
+  margin: 0 auto;
+  line-height: 1.6;
+}
+
+.ktd-contact-main {
+  padding: 56px 0;
+}
+
+.ktd-contact-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 36px;
+}
+
+/* Left: Info Card */
+.ktd-info-card {
+  background: #ffffff;
+  border: 1px solid #f1f5f9;
+  border-radius: 20px;
+  padding: 36px;
+  box-shadow: 0 4px 18px rgba(0, 0, 0, 0.03);
+}
+
+.ktd-info-title {
+  font-family: var(--ktd-font-heading);
+  font-size: 1.45rem;
+  font-weight: 700;
+  color: var(--ktd-dark);
+  margin: 0 0 10px;
+}
+
+.ktd-info-desc {
+  font-family: 'Be Vietnam Pro', sans-serif;
+  font-size: 0.92rem;
+  color: var(--ktd-text-muted);
+  line-height: 1.6;
+  margin: 0 0 28px;
+}
+
+.ktd-info-list {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  margin-bottom: 28px;
+}
+
+.ktd-info-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+}
+
+.ktd-info-icon {
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  background: rgba(37, 99, 235, 0.08);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.ktd-info-icon svg {
+  width: 22px;
+  height: 22px;
+  stroke: var(--ktd-primary);
+}
+
+.ktd-info-text h4 {
+  font-family: var(--ktd-font-heading);
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--ktd-dark);
+  margin: 0 0 4px;
+}
+
+.ktd-info-text p {
+  font-family: 'Be Vietnam Pro', sans-serif;
+  font-size: 0.88rem;
+  color: #475569;
+  margin: 0;
+  line-height: 1.5;
+}
+
+.ktd-contact-map-wrapper {
+  border-radius: 14px;
+  overflow: hidden;
+  border: 1px solid #e2e8f0;
+}
+
+/* Right: Form Card */
+.ktd-form-card {
+  background: #ffffff;
+  border: 1px solid #f1f5f9;
+  border-radius: 20px;
+  padding: 36px;
+  box-shadow: 0 4px 18px rgba(0, 0, 0, 0.03);
+}
+
+.ktd-form-title {
+  font-family: var(--ktd-font-heading);
+  font-size: 1.45rem;
+  font-weight: 700;
+  color: var(--ktd-dark);
+  margin: 0 0 8px;
+}
+
+.ktd-form-desc {
+  font-family: 'Be Vietnam Pro', sans-serif;
+  font-size: 0.92rem;
+  color: var(--ktd-text-muted);
+  line-height: 1.6;
+  margin: 0 0 24px;
+}
+
+.ktd-contact-form {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.ktd-form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+.ktd-form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.ktd-form-group label {
+  font-family: 'Be Vietnam Pro', sans-serif;
+  font-size: 0.86rem;
+  font-weight: 600;
+  color: #334155;
+}
+
+.ktd-form-group label .required {
+  color: #ef4444;
+}
+
+.ktd-input {
+  width: 100%;
+  padding: 12px 16px;
+  border: 1px solid #e2e8f0;
+  border-radius: 10px;
+  font-family: 'Be Vietnam Pro', sans-serif;
+  font-size: 0.92rem;
+  color: #1e293b;
+  background-color: #ffffff;
+  outline: none;
+  box-sizing: border-box;
+  transition: all 0.2s ease;
+}
+
+.ktd-input:focus {
+  border-color: var(--ktd-primary);
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.12);
+}
+
+.ktd-select {
+  cursor: pointer;
+}
+
+.ktd-textarea {
+  resize: vertical;
+}
+
+.ktd-btn-submit {
+  width: 100%;
+  padding: 13px;
+  font-size: 1rem;
+}
+
+.ktd-form-success {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: #ecfdf5;
+  border: 1px solid #a7f3d0;
+  color: #065f46;
+  padding: 12px 16px;
+  border-radius: 10px;
+  font-family: 'Be Vietnam Pro', sans-serif;
+  font-size: 0.88rem;
+  line-height: 1.5;
+}
+
+.ktd-form-success svg {
+  width: 20px;
+  height: 20px;
+  flex-shrink: 0;
+  color: #10b981;
+}
+
+/* FAQ Grid */
+.ktd-contact-faq {
+  padding: 30px 0 64px;
+  border-top: 1px solid var(--ktd-border);
+}
+
+.ktd-faq-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 22px;
+}
+
+.ktd-faq-card {
+  background: #ffffff;
+  border: 1px solid #f1f5f9;
+  border-radius: 14px;
+  padding: 24px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.02);
+}
+
+.ktd-faq-q {
+  font-family: var(--ktd-font-heading);
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--ktd-dark);
+  margin: 0 0 10px;
+  line-height: 1.4;
+}
+
+.ktd-faq-a {
+  font-family: 'Be Vietnam Pro', sans-serif;
+  font-size: 0.88rem;
+  color: #64748b;
+  line-height: 1.6;
+  margin: 0;
+}
+
+
+/* ==========================================================================
+   Contact Page Responsive Adaptations (Tablet <= 991px, Mobile <= 767px, Small Mobile <= 480px)
+   ========================================================================== */
+
+/* Tablet & Below (<= 991px) */
+@media (max-width: 991px) {
+  .ktd-contact-hero {
+    padding: 44px 20px 32px !important;
+  }
+  .ktd-contact-main {
+    padding: 40px 0 !important;
+  }
+  .ktd-contact-grid {
+    grid-template-columns: 1fr !important;
+    gap: 28px !important;
+  }
+  .ktd-info-card,
+  .ktd-form-card {
+    padding: 30px 24px !important;
+  }
+}
+
+/* Mobile Devices (<= 767px) */
+@media (max-width: 767px) {
+  .ktd-contact-hero-title {
+    font-size: 1.7rem !important;
+  }
+  .ktd-contact-hero-desc {
+    font-size: 0.95rem !important;
+  }
+  .ktd-info-card,
+  .ktd-form-card {
+    padding: 24px 18px !important;
+    border-radius: 16px !important;
+  }
+  .ktd-form-row {
+    grid-template-columns: 1fr !important;
+    gap: 14px !important;
+  }
+
+  /* Form input >= 16px to prevent iOS auto-zoom */
+  .ktd-input,
+  .ktd-select,
+  .ktd-textarea {
+    font-size: 16px !important;
+    padding: 12px 14px !important;
+  }
+  .ktd-btn-submit {
+    height: 48px !important;
+    font-size: 1rem !important;
+  }
+
+  .ktd-contact-map-wrapper iframe {
+    height: 240px !important;
+  }
+  .ktd-contact-faq {
+    padding: 24px 0 44px !important;
+  }
+  .ktd-faq-grid {
+    grid-template-columns: 1fr !important;
+    gap: 14px !important;
+  }
+  .ktd-faq-card {
+    padding: 20px 16px !important;
+  }
+}
+
+/* Small Mobile (<= 480px) */
+@media (max-width: 480px) {
+  .ktd-info-title,
+  .ktd-form-title {
+    font-size: 1.3rem !important;
+  }
+  .ktd-info-item {
+    gap: 12px !important;
+  }
+  .ktd-info-icon {
+    width: 38px !important;
+    height: 38px !important;
+  }
+  .ktd-info-icon svg {
+    width: 18px !important;
+    height: 18px !important;
+  }
+}

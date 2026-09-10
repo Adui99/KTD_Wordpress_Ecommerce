@@ -1,0 +1,28 @@
+/*
+Theme Name: Hello Elementor Child
+Theme URI: http://ktd-ecommerce.local
+Description: Child theme for Hello Elementor with custom e-commerce header, footer, and optimized layout.
+Author: Antigravity
+Author URI: http://ktd-ecommerce.local
+Template: hello-elementor
+Version: 1.0.0
+Text Domain: hello-elementor-child
+*/
+
+/**
+ * ==============================================================================
+ * KTD E-COMMERCE MODULAR STYLESHEET DIRECTORY
+ * ==============================================================================
+ * CSS has been modularized and conditionally enqueued via functions.php:
+ *
+ * 1. assets/css/base.css            - Design tokens (:root), resets, shared buttons/badges, back-to-top
+ * 2. assets/css/layout.css          - Site header, navigation, search, cart icon, mobile drawer, footer
+ * 3. assets/css/home.css            - Homepage hero & Top trending flagship showcase
+ * 4. assets/css/shop.css            - Shop catalog archive, filters, product grid, pagination
+ * 5. assets/css/single-product.css  - Single product 2-column layout, gallery, swatches, trust cards, specs modal
+ * 6. assets/css/cart.css            - 2-column shopping cart, quantity steppers, cart totals
+ * 7. assets/css/my-account.css      - User profile, tabs, orders, addresses, auth forms
+ * 8. assets/css/page-about.css      - About Us story, values, stats, team showcase
+ * 9. assets/css/page-contact.css    - Contact Us branches, feedback form, map
+ * ==============================================================================
+ */
