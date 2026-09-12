@@ -804,16 +804,18 @@
   width: 100%;
   background: #ffffff;
   border-top: 1px solid #e2e8f0;
-  padding: 10px 16px;
+  padding: 10px 16px calc(10px + env(safe-area-inset-bottom, 0px));
   box-shadow: 0 -4px 16px rgba(0, 0, 0, 0.08);
   z-index: 999;
   box-sizing: border-box;
   transform: translateY(100%);
+  pointer-events: none;
   transition: transform 0.25s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .ktd-mobile-sticky-bar.visible {
   transform: translateY(0);
+  pointer-events: auto;
 }
 
 .ktd-sticky-bar-inner {
@@ -1381,7 +1383,8 @@
 
 /* --- Specs Modal Popup --- */
 .ktd-specs-modal {
-  display: none;
+  display: none !important;
+  pointer-events: none !important;
   position: fixed;
   inset: 0;
   z-index: 999999;
@@ -1392,7 +1395,8 @@
 }
 
 .ktd-specs-modal.is-open {
-  display: flex;
+  display: flex !important;
+  pointer-events: auto !important;
 }
 
 .ktd-specs-modal-overlay {
@@ -1673,8 +1677,17 @@ body.modal-open {
   display: inline;
 }
 
-/* Hide native WooCommerce selects & clear link */
-.ktd-single-product-container div.product table.variations td.value select,
+/* Hide native WooCommerce selects & clear link while preserving accessibility and form validity */
+.ktd-single-product-container div.product table.variations td.value select {
+  position: absolute !important;
+  opacity: 0 !important;
+  width: 1px !important;
+  height: 1px !important;
+  pointer-events: none !important;
+  clip: rect(0, 0, 0, 0) !important;
+  overflow: hidden !important;
+}
+
 .ktd-single-product-container div.product .reset_variations {
   display: none !important;
 }
@@ -1710,6 +1723,10 @@ body.modal-open {
   overflow: hidden;
   transform: none !important;
   margin: 0 !important;
+}
+
+.ktd-swatch-pill * {
+  pointer-events: none;
 }
 
 /* Min-width cân đối theo từng loại thuộc tính */
@@ -1875,6 +1892,34 @@ body.modal-open {
   margin-bottom: 14px;
 }
 
+/* Variable Product Add to Cart Action Row */
+.ktd-single-product-container .woocommerce-variation-add-to-cart,
+.ktd-single-product-container .single_variation_wrap .woocommerce-variation-add-to-cart {
+  display: flex !important;
+  align-items: center !important;
+  flex-wrap: wrap !important;
+  gap: 12px !important;
+  width: 100% !important;
+  margin-top: 10px !important;
+}
+
+.ktd-single-product-container .woocommerce-variation-add-to-cart .quantity {
+  margin: 0 !important;
+  flex-shrink: 0 !important;
+}
+
+.ktd-single-product-container .woocommerce-variation-add-to-cart button.single_add_to_cart_button {
+  flex: 1 1 200px !important;
+  margin: 0 !important;
+  height: 48px !important;
+}
+
+.ktd-single-product-container .woocommerce-variation-add-to-cart .ktd-dual-cta-group {
+  flex: 1 1 100% !important;
+  width: 100% !important;
+  margin-top: 4px !important;
+}
+
 @media (max-width: 576px) {
   .ktd-swatch-pills-wrap {
     gap: 8px;
@@ -1905,6 +1950,324 @@ body.modal-open {
   }
 }
 
+/* ==========================================================================
+   Dual Action CTA: Nút Trả Góp 0% & Installment Modal
+   ========================================================================== */
 
+.ktd-dual-cta-group {
+  margin-top: 14px;
+  width: 100%;
+}
 
+.ktd-installment-cta-btn {
+  width: 100% !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 12px !important;
+  background: #ffffff !important;
+  border: 2px solid var(--ktd-primary) !important;
+  border-radius: 12px !important;
+  padding: 12px 20px !important;
+  cursor: pointer !important;
+  color: var(--ktd-primary) !important;
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1) !important;
+  box-shadow: 0 2px 8px rgba(37, 99, 235, 0.08) !important;
+  box-sizing: border-box !important;
+}
 
+.ktd-installment-cta-btn:hover {
+  background: rgba(37, 99, 235, 0.05) !important;
+  border-color: var(--ktd-primary-dark) !important;
+  color: var(--ktd-primary-dark) !important;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(37, 99, 235, 0.15) !important;
+}
+
+.ktd-installment-cta-btn svg {
+  flex-shrink: 0;
+  stroke: currentColor;
+}
+
+.ktd-cta-btn-text {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  text-align: left;
+}
+
+.ktd-cta-btn-text strong {
+  font-family: var(--ktd-font-heading);
+  font-size: 0.95rem;
+  font-weight: 800;
+  letter-spacing: 0.3px;
+  line-height: 1.2;
+}
+
+.ktd-cta-btn-text span {
+  font-family: var(--ktd-font-body);
+  font-size: 0.78rem;
+  font-weight: 500;
+  color: #64748b;
+  margin-top: 2px;
+}
+
+/* Installment Modal Backdrop */
+.ktd-modal-backdrop {
+  display: none !important;
+  pointer-events: none !important;
+  position: fixed !important;
+  top: 0 !important;
+  left: 0 !important;
+  width: 100vw !important;
+  height: 100vh !important;
+  background: rgba(15, 23, 42, 0.6) !important;
+  backdrop-filter: blur(6px) !important;
+  -webkit-backdrop-filter: blur(6px) !important;
+  z-index: 9998 !important;
+  align-items: center !important;
+  justify-content: center !important;
+  padding: 20px !important;
+  box-sizing: border-box !important;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.25s ease, visibility 0.25s ease;
+}
+
+.ktd-modal-backdrop.is-visible {
+  display: flex !important;
+  pointer-events: auto !important;
+  opacity: 1 !important;
+  visibility: visible !important;
+}
+
+.ktd-modal-dialog {
+  background: #ffffff;
+  border-radius: 20px;
+  width: 100%;
+  max-width: 640px;
+  max-height: 90vh;
+  overflow-y: auto;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+  transform: scale(0.95) translateY(10px);
+  transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  box-sizing: border-box;
+}
+
+.ktd-modal-backdrop.is-visible .ktd-modal-dialog {
+  transform: scale(1) translateY(0);
+}
+
+.ktd-modal-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  padding: 24px 28px 16px;
+  border-bottom: 1px solid #f1f5f9;
+}
+
+.ktd-modal-badge {
+  display: inline-block;
+  font-size: 0.72rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: var(--ktd-primary);
+  background: rgba(37, 99, 235, 0.08);
+  padding: 4px 10px;
+  border-radius: 20px;
+  margin-bottom: 8px;
+}
+
+.ktd-modal-title {
+  font-family: var(--ktd-font-heading);
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--ktd-dark);
+  margin: 0;
+  letter-spacing: -0.3px;
+}
+
+.ktd-modal-close-btn {
+  background: #f1f5f9;
+  border: none;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  color: #64748b;
+  transition: all 0.2s ease;
+  flex-shrink: 0;
+}
+
+.ktd-modal-close-btn:hover {
+  background: #e2e8f0;
+  color: var(--ktd-dark);
+}
+
+.ktd-modal-body {
+  padding: 24px 28px 28px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.ktd-installment-tabs {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.ktd-inst-card {
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 14px;
+  padding: 18px 20px;
+  transition: border-color 0.2s ease;
+}
+
+.ktd-inst-card:hover {
+  border-color: #cbd5e1;
+}
+
+.ktd-inst-card-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 12px;
+}
+
+.ktd-inst-tag {
+  font-size: 0.72rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  background: #e2e8f0;
+  color: #475569;
+  padding: 3px 8px;
+  border-radius: 6px;
+}
+
+.ktd-inst-card-title {
+  font-family: var(--ktd-font-heading);
+  font-size: 0.98rem;
+  font-weight: 700;
+  color: var(--ktd-dark);
+  margin: 0;
+}
+
+.ktd-inst-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.ktd-inst-list li {
+  font-family: var(--ktd-font-body);
+  font-size: 0.88rem;
+  color: #475569;
+  line-height: 1.5;
+  position: relative;
+  padding-left: 18px;
+}
+
+.ktd-inst-list li::before {
+  content: "•";
+  position: absolute;
+  left: 4px;
+  color: var(--ktd-primary);
+  font-size: 1.2rem;
+  line-height: 1;
+}
+
+.ktd-inst-list li strong {
+  color: var(--ktd-dark);
+}
+
+.ktd-modal-ai-box {
+  background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%);
+  border: 1px solid #bfdbfe;
+  border-radius: 14px;
+  padding: 18px 20px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.ktd-ai-box-icon {
+  width: 44px;
+  height: 44px;
+  background: #ffffff;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--ktd-primary);
+  flex-shrink: 0;
+  box-shadow: 0 2px 8px rgba(37, 99, 235, 0.12);
+}
+
+.ktd-ai-box-content {
+  flex: 1;
+}
+
+.ktd-ai-box-content strong {
+  display: block;
+  font-family: var(--ktd-font-heading);
+  font-size: 0.92rem;
+  color: #1e3a8a;
+  margin-bottom: 2px;
+}
+
+.ktd-ai-box-content p {
+  font-family: var(--ktd-font-body);
+  font-size: 0.82rem;
+  color: #3b82f6;
+  margin: 0;
+  line-height: 1.4;
+}
+
+.ktd-modal-ai-trigger {
+  background: var(--ktd-primary);
+  color: #ffffff;
+  border: none;
+  border-radius: 10px;
+  padding: 10px 16px;
+  font-family: var(--ktd-font-heading);
+  font-size: 0.85rem;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  cursor: pointer;
+  flex-shrink: 0;
+  transition: all 0.2s ease;
+  box-shadow: 0 2px 8px rgba(37, 99, 235, 0.25);
+}
+
+.ktd-modal-ai-trigger:hover {
+  background: var(--ktd-primary-dark);
+  transform: translateY(-1px);
+}
+
+@media (max-width: 640px) {
+  .ktd-modal-header {
+    padding: 20px 20px 14px;
+  }
+  .ktd-modal-body {
+    padding: 18px 20px 24px;
+  }
+  .ktd-modal-ai-box {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  .ktd-modal-ai-trigger {
+    width: 100%;
+    justify-content: center;
+  }
+}

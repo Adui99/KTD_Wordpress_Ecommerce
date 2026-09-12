@@ -10,8 +10,8 @@
    5. About Page Styling
    ========================================================================== */
 .ktd-about-hero {
-  background: linear-gradient(180deg, #f8fafc 0%, #ffffff 100%);
-  padding: 64px 0 48px;
+  background: #ffffff;
+  padding: 44px 0 36px;
   text-align: center;
   border-bottom: 1px solid var(--ktd-border);
 }

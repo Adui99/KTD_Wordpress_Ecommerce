@@ -31,8 +31,8 @@ $shop_url  = function_exists( 'wc_get_page_permalink' ) ? wc_get_page_permalink(
 				<ul class="ktd-footer-links">
 					<li><a href="<?php echo esc_url( $home_url ); ?>">Trang chủ (Home)</a></li>
 					<li><a href="<?php echo esc_url( $shop_url ); ?>">Sản phẩm (Products)</a></li>
+					<li><a href="<?php echo esc_url( get_permalink( get_option( 'page_for_posts' ) ) ?: home_url( '/blog/' ) ); ?>">Tin tức & Công nghệ (Blog)</a></li>
 					<li><a href="<?php echo esc_url( home_url( '/about/' ) ); ?>">Về chúng tôi (About)</a></li>
-					<li><a href="<?php echo esc_url( $shop_url ); ?>">Bộ sưu tập (Gallery)</a></li>
 					<li><a href="<?php echo esc_url( home_url( '/contact-us/' ) ); ?>">Liên hệ (Contact)</a></li>
 				</ul>
 			</div>

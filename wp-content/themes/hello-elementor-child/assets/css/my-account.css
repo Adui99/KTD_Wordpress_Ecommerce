@@ -10,28 +10,251 @@
    8. User Profile (My Account) Minimal Card Styling
    ========================================================================== */
 .woocommerce-account .woocommerce {
-  max-width: 1100px;
-  margin: 40px auto 60px;
-  padding: 0 28px;
-  box-sizing: border-box;
+  max-width: 1040px !important;
+  margin: 30px auto 80px !important;
+  padding: 0 24px !important;
+  box-sizing: border-box !important;
 }
 
-/* Form Login / Register */
-.woocommerce-account form.login,
-.woocommerce-account form.register {
-  max-width: 460px !important;
-  margin: 30px auto !important;
+/* Mobile Auth Tab Switcher */
+/* ==========================================================================
+   8. Centered Login Card & Register Modal Styling (KTD Store)
+   ========================================================================== */
+.ktd-auth-container {
+  max-width: 480px !important;
+  margin: 10px auto 60px !important;
+  width: 100% !important;
+  box-sizing: border-box !important;
+}
+
+.ktd-auth-card {
   background: #ffffff !important;
-  border: 1px solid #f1f5f9 !important;
+  border: 1px solid #e2e8f0 !important;
   border-radius: 20px !important;
   padding: 36px 32px !important;
-  box-shadow: 0 6px 24px rgba(0, 0, 0, 0.03) !important;
+  box-shadow: 0 8px 30px rgba(15, 23, 42, 0.05) !important;
+  box-sizing: border-box !important;
 }
 
-.woocommerce-account .u-columns.col2-set {
-  display: grid !important;
-  grid-template-columns: 1fr 1fr !important;
-  gap: 36px !important;
+.ktd-auth-card-header {
+  text-align: center;
+  margin-bottom: 28px;
+}
+
+.ktd-auth-title {
+  font-family: var(--ktd-font-heading) !important;
+  font-size: 1.5rem !important;
+  font-weight: 700 !important;
+  color: #0f172a !important;
+  margin: 0 0 8px 0 !important;
+}
+
+.ktd-auth-subtitle {
+  font-family: var(--ktd-font-body) !important;
+  font-size: 0.88rem !important;
+  color: #64748b !important;
+  margin: 0 !important;
+  line-height: 1.5 !important;
+}
+
+.ktd-form-options-row {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  margin: 12px 0 20px !important;
+  font-size: 0.85rem !important;
+}
+
+.ktd-lost-password-link {
+  color: var(--ktd-primary) !important;
+  font-weight: 600 !important;
+  text-decoration: none !important;
+  transition: color 0.2s ease !important;
+}
+
+.ktd-lost-password-link:hover {
+  text-decoration: underline !important;
+  color: var(--ktd-primary-dark) !important;
+}
+
+.ktd-auth-submit-btn {
+  width: 100% !important;
+  padding: 14px 24px !important;
+  border-radius: 9999px !important;
+  background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%) !important;
+  color: #ffffff !important;
+  font-family: var(--ktd-font-heading) !important;
+  font-size: 0.96rem !important;
+  font-weight: 700 !important;
+  letter-spacing: 0.5px !important;
+  border: none !important;
+  box-shadow: 0 4px 14px rgba(37, 99, 235, 0.3) !important;
+  cursor: pointer !important;
+  transition: all 0.25s ease !important;
+}
+
+.ktd-auth-submit-btn:hover {
+  transform: translateY(-2px) !important;
+  box-shadow: 0 6px 20px rgba(37, 99, 235, 0.4) !important;
+}
+
+.ktd-auth-switch-prompt {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 6px !important;
+  margin-top: 24px !important;
+  padding-top: 20px !important;
+  border-top: 1px solid #f1f5f9 !important;
+  font-family: var(--ktd-font-body) !important;
+  font-size: 0.9rem !important;
+  color: #64748b !important;
+}
+
+.ktd-switch-btn {
+  background: none !important;
+  border: none !important;
+  padding: 0 !important;
+  color: var(--ktd-primary) !important;
+  font-family: var(--ktd-font-body) !important;
+  font-size: 0.9rem !important;
+  font-weight: 700 !important;
+  cursor: pointer !important;
+  text-decoration: underline !important;
+  transition: color 0.2s ease !important;
+}
+
+.ktd-switch-btn:hover {
+  color: var(--ktd-primary-dark) !important;
+}
+
+/* Registration Modal Backdrop & Dialog */
+.ktd-auth-modal-backdrop {
+  position: fixed !important;
+  top: 0 !important;
+  left: 0 !important;
+  width: 100vw !important;
+  height: 100vh !important;
+  background: rgba(15, 23, 42, 0.6) !important;
+  backdrop-filter: blur(4px) !important;
+  -webkit-backdrop-filter: blur(4px) !important;
+  z-index: 999999 !important;
+  display: none;
+  align-items: center !important;
+  justify-content: center !important;
+  padding: 20px !important;
+  box-sizing: border-box !important;
+  animation: ktdFadeIn 0.25s ease;
+}
+
+.ktd-auth-modal-backdrop.is-active {
+  display: flex !important;
+}
+
+.ktd-auth-modal-dialog {
+  background: #ffffff !important;
+  border: 1px solid #e2e8f0 !important;
+  border-radius: 24px !important;
+  width: 100% !important;
+  max-width: 480px !important;
+  padding: 36px 32px !important;
+  box-sizing: border-box !important;
+  box-shadow: 0 20px 50px rgba(15, 23, 42, 0.2) !important;
+  position: relative !important;
+  animation: ktdSlideUp 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  max-height: 90vh;
+  overflow-y: auto;
+}
+
+.ktd-auth-modal-close {
+  position: absolute !important;
+  top: 20px !important;
+  right: 20px !important;
+  width: 36px !important;
+  height: 36px !important;
+  border-radius: 50% !important;
+  border: 1px solid #e2e8f0 !important;
+  background: #f8fafc !important;
+  color: #64748b !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  cursor: pointer !important;
+  transition: all 0.2s ease !important;
+}
+
+.ktd-auth-modal-close:hover {
+  background: #f1f5f9 !important;
+  color: #0f172a !important;
+  transform: rotate(90deg) !important;
+}
+
+@keyframes ktdFadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes ktdSlideUp {
+  from { opacity: 0; transform: translateY(20px) scale(0.98); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+
+@media (max-width: 768px) {
+  .ktd-auth-mobile-tabs {
+    display: flex !important;
+    background: #f1f5f9;
+    padding: 4px;
+    border-radius: 12px;
+    margin: 0 auto 24px;
+    max-width: 440px;
+    gap: 4px;
+    box-sizing: border-box;
+  }
+
+  .ktd-auth-mobile-tab-btn {
+    flex: 1;
+    padding: 10px 16px;
+    border: none;
+    background: transparent;
+    border-radius: 8px;
+    font-family: var(--ktd-font-heading);
+    font-size: 0.92rem;
+    font-weight: 600;
+    color: #64748b;
+    cursor: pointer;
+    transition: all 0.2s ease;
+  }
+
+  .ktd-auth-mobile-tab-btn.is-active {
+    background: #ffffff;
+    color: var(--ktd-primary);
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.06);
+    font-weight: 700;
+  }
+
+  .woocommerce-account .u-columns.col2-set {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 0 !important;
+    max-width: 460px !important;
+  }
+
+  .woocommerce-account.ktd-tab-active-login .u-column2 {
+    display: none !important;
+  }
+
+  .woocommerce-account.ktd-tab-active-register .u-column1 {
+    display: none !important;
+  }
+
+  .woocommerce-account form.login,
+  .woocommerce-account form.register,
+  .woocommerce-account form.woocommerce-form-login,
+  .woocommerce-account form.woocommerce-form-register {
+    padding: 24px 20px !important;
+    border-radius: 16px !important;
+  }
 }
 
 .woocommerce-account form .form-row input.input-text {
@@ -80,10 +303,17 @@
   display: none !important;
 }
 
-.woocommerce-account .page-content {
-  padding: 0 !important;
-  background-color: #fafbfc;
+body.woocommerce-account,
+.woocommerce-account #content,
+.woocommerce-account .page-content,
+.woocommerce-account .site-main {
+  background-color: #ffffff !important;
   min-height: 75vh;
+}
+
+.woocommerce-account #comments,
+.woocommerce-account .ktd-comments-area {
+  display: none !important;
 }
 
 /* Base Wrapper for My Account */
@@ -729,24 +959,28 @@
 
 .ktd-form-submit-row {
   margin: 24px 0 0 !important;
+  width: 100% !important;
 }
 
 .ktd-btn-save-account,
 .woocommerce-account form.woocommerce-EditAccountForm button.woocommerce-Button {
+  width: 100% !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  text-align: center !important;
+  gap: 8px !important;
   background: var(--ktd-primary) !important;
   color: #ffffff !important;
-  font-family: var(--ktd-font-heading) !important;
-  font-size: 0.92rem !important;
-  font-weight: 700 !important;
+  font-family: 'Be Vietnam Pro', sans-serif !important;
+  font-size: 0.95rem !important;
+  font-weight: 600 !important;
   border: none !important;
-  border-radius: 10px !important;
-  padding: 12px 28px !important;
+  border-radius: 12px !important;
+  padding: 14px 28px !important;
   cursor: pointer !important;
   transition: all 0.2s ease !important;
   box-shadow: 0 2px 8px rgba(37, 99, 235, 0.25) !important;
-  display: inline-flex !important;
-  align-items: center !important;
-  gap: 8px !important;
 }
 
 .ktd-btn-save-account:hover,
@@ -995,19 +1229,205 @@
   color: #334155 !important;
 }
 
+/* Enhanced Order Details View (/view-order/XXX/) */
+.woocommerce-view-order > p:first-of-type {
+  background: #f8fafc !important;
+  border: 1px solid #e2e8f0 !important;
+  border-radius: 14px !important;
+  padding: 16px 22px !important;
+  font-family: 'Be Vietnam Pro', sans-serif !important;
+  font-size: 0.95rem !important;
+  color: #475569 !important;
+  line-height: 1.6 !important;
+  margin-top: 10px !important;
+  margin-bottom: 28px !important;
+}
+
+.woocommerce-view-order > p:first-of-type mark {
+  background: #e2e8f0 !important;
+  color: #0f172a !important;
+  font-weight: 700 !important;
+  padding: 2px 8px !important;
+  border-radius: 6px !important;
+}
+
+.woocommerce-view-order .woocommerce-order-details__title,
+.woocommerce-view-order .woocommerce-customer-details .woocommerce-column__title {
+  font-family: var(--ktd-font-heading) !important;
+  font-size: 1.45rem !important;
+  font-weight: 700 !important;
+  color: #0f172a !important;
+  margin: 32px 0 16px !important;
+  letter-spacing: -0.4px !important;
+}
+
+.woocommerce-view-order table.order_details {
+  border: 1px solid #e2e8f0 !important;
+  border-radius: 16px !important;
+  overflow: hidden !important;
+  box-shadow: 0 4px 18px rgba(15, 23, 42, 0.03) !important;
+  background: #ffffff !important;
+  margin-bottom: 32px !important;
+}
+
+.woocommerce-view-order table.order_details thead th {
+  background: #f8fafc !important;
+  color: #475569 !important;
+  font-family: var(--ktd-font-heading) !important;
+  font-size: 0.88rem !important;
+  font-weight: 700 !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.05em !important;
+  padding: 16px 24px !important;
+  border-bottom: 1px solid #e2e8f0 !important;
+}
+
+.woocommerce-view-order table.order_details thead th:last-child {
+  text-align: right !important;
+}
+
+.woocommerce-view-order table.order_details tbody td {
+  padding: 18px 24px !important;
+  border-bottom: 1px solid #f1f5f9 !important;
+  font-size: 0.95rem !important;
+  vertical-align: top !important;
+}
+
+.woocommerce-view-order table.order_details tbody td:last-child {
+  text-align: right !important;
+  font-weight: 600 !important;
+  color: #0f172a !important;
+}
+
+.woocommerce-view-order table.order_details .woocommerce-table__product-name a {
+  color: #0f172a !important;
+  font-weight: 600 !important;
+  text-decoration: none !important;
+  transition: color 0.15s ease !important;
+}
+
+.woocommerce-view-order table.order_details .woocommerce-table__product-name a:hover {
+  color: var(--ktd-primary) !important;
+}
+
+.woocommerce-view-order table.order_details .wc-item-meta {
+  margin: 6px 0 0 0 !important;
+  padding: 0 !important;
+  list-style: none !important;
+  font-size: 0.85rem !important;
+  color: #64748b !important;
+  line-height: 1.6 !important;
+}
+
+.woocommerce-view-order table.order_details .wc-item-meta strong {
+  font-weight: 600 !important;
+  color: #334155 !important;
+}
+
+.woocommerce-view-order table.order_details tfoot th {
+  background: #ffffff !important;
+  padding: 14px 24px !important;
+  font-size: 0.92rem !important;
+  font-weight: 600 !important;
+  color: #475569 !important;
+  border-top: 1px solid #f1f5f9 !important;
+  text-align: left !important;
+}
+
+.woocommerce-view-order table.order_details tfoot td {
+  background: #ffffff !important;
+  padding: 14px 24px !important;
+  font-size: 0.92rem !important;
+  font-weight: 600 !important;
+  color: #0f172a !important;
+  border-top: 1px solid #f1f5f9 !important;
+  text-align: right !important;
+}
+
+.woocommerce-view-order table.order_details tfoot tr:last-child th,
+.woocommerce-view-order table.order_details tfoot tr:last-child td {
+  border-top: 2px solid #e2e8f0 !important;
+}
+
+.woocommerce-view-order table.order_details tfoot tr:last-child td .amount,
+.woocommerce-view-order table.order_details tfoot tr:nth-last-child(2) td .amount {
+  font-size: 1.25rem !important;
+  font-weight: 700 !important;
+  color: var(--ktd-primary) !important;
+}
+
+/* 1-Column Stacked Address Details (Per User Preference) */
+.woocommerce-view-order .woocommerce-customer-details {
+  margin-top: 28px !important;
+}
+
+.woocommerce-view-order .woocommerce-customer-details .woocommerce-columns--addresses {
+  display: block !important;
+}
+
+.woocommerce-view-order .woocommerce-customer-details .woocommerce-column {
+  margin-bottom: 24px !important;
+  float: none !important;
+  width: 100% !important;
+}
+
+.woocommerce-view-order .woocommerce-customer-details address {
+  background: #ffffff !important;
+  border: 1px solid #e2e8f0 !important;
+  border-radius: 16px !important;
+  padding: 24px 28px !important;
+  box-shadow: 0 4px 16px rgba(15, 23, 42, 0.02) !important;
+  font-style: normal !important;
+  font-family: 'Be Vietnam Pro', sans-serif !important;
+  font-size: 0.95rem !important;
+  line-height: 1.8 !important;
+  color: #334155 !important;
+  margin: 0 !important;
+}
+
+.woocommerce-view-order .woocommerce-customer-details address p {
+  margin: 0 !important;
+  line-height: 1.8 !important;
+}
+
+.woocommerce-view-order .woocommerce-customer-details--email,
+.woocommerce-view-order .woocommerce-customer-details--phone {
+  margin-top: 8px !important;
+  display: flex !important;
+  align-items: center !important;
+  gap: 8px !important;
+  font-weight: 600 !important;
+  color: #1e293b !important;
+}
+
 /* ==========================================================================
-   Logged-Out Form Card (Minimalist Centered)
+   Logged-Out Form Card (Minimalist Centered or Split 2 Columns)
    ========================================================================== */
 .woocommerce-account:not(.logged-in) .woocommerce {
-  max-width: 440px !important;
+  max-width: 1040px !important;
   margin: 10px auto 80px !important;
+  padding: 0 20px !important;
 }
 
 .woocommerce-account:not(.logged-in) .woocommerce > h2 {
   display: none !important;
 }
 
-.woocommerce-account:not(.logged-in) form.woocommerce-form-login {
+/* Single-column fallback (Lost Password, Reset Password) */
+.woocommerce-account:not(.logged-in) .woocommerce > form.woocommerce-ResetPassword,
+.woocommerce-account:not(.logged-in) .woocommerce > form.lost_reset_password,
+.woocommerce-account:not(.logged-in) .woocommerce > form.login:only-child,
+.woocommerce-account:not(.logged-in) .woocommerce > form.woocommerce-form-login:only-child {
+  max-width: 460px !important;
+  margin: 30px auto !important;
+}
+
+.woocommerce-account:not(.logged-in) form.woocommerce-form-login,
+.woocommerce-account:not(.logged-in) form.woocommerce-form-register,
+.woocommerce-account:not(.logged-in) form.login,
+.woocommerce-account:not(.logged-in) form.register,
+.woocommerce-account:not(.logged-in) form.woocommerce-ResetPassword,
+.woocommerce-account:not(.logged-in) form.lost_reset_password {
   background: #ffffff !important;
   border-radius: 20px !important;
   border: 1px solid #e2e8f0 !important;
@@ -1016,14 +1436,14 @@
   margin: 0 !important;
 }
 
-.woocommerce-account:not(.logged-in) form.woocommerce-form-login .form-row {
+.woocommerce-account:not(.logged-in) form .form-row {
   padding: 0 !important;
   margin-bottom: 18px !important;
   width: 100% !important;
   float: none !important;
 }
 
-.woocommerce-account:not(.logged-in) form.woocommerce-form-login label {
+.woocommerce-account:not(.logged-in) form label {
   font-family: var(--ktd-font-heading) !important;
   font-size: 0.88rem !important;
   font-weight: 700 !important;
@@ -1032,7 +1452,7 @@
   display: block !important;
 }
 
-.woocommerce-account:not(.logged-in) form.woocommerce-form-login input.input-text {
+.woocommerce-account:not(.logged-in) form input.input-text {
   width: 100% !important;
   height: 46px !important;
   background-color: #ffffff !important;
@@ -1046,7 +1466,7 @@
   box-sizing: border-box !important;
 }
 
-.woocommerce-account:not(.logged-in) form.woocommerce-form-login input.input-text:focus {
+.woocommerce-account:not(.logged-in) form input.input-text:focus {
   border-color: var(--ktd-primary) !important;
   box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.12) !important;
   outline: none !important;
@@ -1063,7 +1483,11 @@
   cursor: pointer !important;
 }
 
-.woocommerce-account:not(.logged-in) button.woocommerce-form-login__submit {
+.woocommerce-account:not(.logged-in) button.woocommerce-form-login__submit,
+.woocommerce-account:not(.logged-in) button.woocommerce-form-register__submit,
+.woocommerce-account:not(.logged-in) form.login button.button,
+.woocommerce-account:not(.logged-in) form.register button.button,
+.woocommerce-account:not(.logged-in) form.woocommerce-ResetPassword button.button {
   width: 100% !important;
   height: 48px !important;
   background: var(--ktd-primary) !important;
@@ -1076,11 +1500,25 @@
   cursor: pointer !important;
   transition: all 0.2s ease !important;
   margin: 16px 0 12px !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
 }
 
-.woocommerce-account:not(.logged-in) button.woocommerce-form-login__submit:hover {
+.woocommerce-account:not(.logged-in) button.woocommerce-form-login__submit:hover,
+.woocommerce-account:not(.logged-in) button.woocommerce-form-register__submit:hover,
+.woocommerce-account:not(.logged-in) form.login button.button:hover,
+.woocommerce-account:not(.logged-in) form.register button.button:hover,
+.woocommerce-account:not(.logged-in) form.woocommerce-ResetPassword button.button:hover {
   background: var(--ktd-primary-hover) !important;
   transform: translateY(-1px) !important;
+}
+
+.woocommerce-account:not(.logged-in) .woocommerce-privacy-policy-text {
+  font-size: 0.82rem !important;
+  color: #64748b !important;
+  line-height: 1.5 !important;
+  margin: 10px 0 14px !important;
 }
 
 .woocommerce-account:not(.logged-in) .lost_password {

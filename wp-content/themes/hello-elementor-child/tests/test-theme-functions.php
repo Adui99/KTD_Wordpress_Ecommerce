@@ -132,6 +132,11 @@ function _n($single, $plural, $number, $domain = 'default') {
     return $number === 1 ? $single : $plural;
 }
 
+function __return_true() { return true; }
+function __return_false() { return false; }
+function __return_zero() { return 0; }
+function __return_empty_array() { return []; }
+
 function wc_get_cart_url() {
     return 'http://ktd-ecommerce.local/cart/';
 }
@@ -171,6 +176,10 @@ function remove_filter($tag, $callback, $priority = 10) {
 
 function get_stylesheet_directory() {
     return realpath(__DIR__ . '/..');
+}
+
+function get_stylesheet_directory_uri() {
+    return 'http://ktd-ecommerce.local/wp-content/themes/hello-elementor-child';
 }
 
 if (!function_exists('is_admin')) {
@@ -626,11 +635,175 @@ $test->it('should render custom Native Chatbot HTML without dify iframe', functi
     $test->assertTrue(strpos($html, 'id="ktd-chat-window"') !== false, 'Renders custom chat window');
     $test->assertTrue(strpos($html, 'EV — Trợ lý AI KTD Store') !== false, 'Renders EV branding');
     $test->assertTrue(strpos($html, 'placeholder="Hỏi EV bất kỳ điều gì..."') !== false, 'Renders concise elegant placeholder');
-    $test->assertTrue(strpos($html, 'border-color: #cbd5e1 !important;') !== false, 'Uses soft gray focus border');
-    $test->assertTrue(strpos($html, 'rgba(37, 99, 235, 0.12)') === false, 'Strictly eliminates harsh blue focus ring');
     $test->assertTrue(strpos($html, 'ktd-quick-chip') === false, 'Strictly eliminates quick chips to maximize message space');
     $test->assertTrue(strpos($html, 'udify.app/embed.min.js') === false, 'Strictly eliminates Dify embed iframe script');
     $test->assertTrue(strpos($html, 'POWERED BY Dify') === false, 'Strictly eliminates Dify watermark');
+
+    // Verify modularized chatbot assets
+    $css_path = __DIR__ . '/../assets/css/chatbot.css';
+    $test->assertTrue(file_exists($css_path), 'assets/css/chatbot.css exists');
+    $css_content = file_get_contents($css_path);
+    $test->assertTrue(strpos($css_content, 'border-color: #cbd5e1 !important;') !== false, 'Uses soft gray focus border in chatbot.css');
+    $test->assertTrue(strpos($css_content, 'rgba(37, 99, 235, 0.12)') === false, 'Strictly eliminates harsh blue focus ring in chatbot.css');
+
+    $js_path = __DIR__ . '/../assets/js/chatbot.js';
+    $test->assertTrue(file_exists($js_path), 'assets/js/chatbot.js exists');
+    $js_content = file_get_contents($js_path);
+    $test->assertTrue(strpos($js_content, 'ktdChatConfig') !== false, 'chatbot.js integrates with ktdChatConfig');
+});
+
+$test->describe('Phase P0.1: Checkout Page Customizations & Trust Badges');
+
+$test->it('should unset friction fields and customize essential checkout fields', function() use ($test) {
+    $raw_fields = [
+        'billing' => [
+            'billing_first_name' => ['label' => 'First Name'],
+            'billing_last_name'  => ['label' => 'Last Name', 'required' => true],
+            'billing_company'    => ['label' => 'Company'],
+            'billing_country'    => ['label' => 'Country'],
+            'billing_address_1'  => ['label' => 'Street Address'],
+            'billing_address_2'  => ['label' => 'Apartment'],
+            'billing_city'       => ['label' => 'Town / City'],
+            'billing_postcode'   => ['label' => 'Postcode / ZIP'],
+            'billing_phone'      => ['label' => 'Phone'],
+            'billing_email'      => ['label' => 'Email Address'],
+        ],
+        'shipping' => [
+            'shipping_company'   => ['label' => 'Company'],
+            'shipping_postcode'  => ['label' => 'Postcode'],
+            'shipping_country'   => ['label' => 'Country'],
+            'shipping_address_2' => ['label' => 'Address 2'],
+        ]
+    ];
+
+    $filtered = ktd_custom_checkout_fields($raw_fields);
+
+    $test->assertTrue(!isset($filtered['billing']['billing_company']), 'Unsets billing_company');
+    $test->assertTrue(!isset($filtered['billing']['billing_postcode']), 'Unsets billing_postcode');
+    $test->assertTrue(!isset($filtered['billing']['billing_country']), 'Unsets billing_country');
+    $test->assertTrue(!isset($filtered['billing']['billing_address_2']), 'Unsets billing_address_2');
+    $test->assertTrue(!isset($filtered['billing']['billing_last_name']), 'Unsets billing_last_name');
+    $test->assertTrue(!isset($filtered['shipping']['shipping_company']), 'Unsets shipping_company');
+    $test->assertTrue(!isset($filtered['shipping']['shipping_postcode']), 'Unsets shipping_postcode');
+    $test->assertTrue(!isset($filtered['shipping']['shipping_last_name']), 'Unsets shipping_last_name');
+
+    $test->assertSame('Họ và tên', $filtered['billing']['billing_first_name']['label'], 'Customizes first name label');
+    $test->assertSame('Số điện thoại nhận hàng', $filtered['billing']['billing_phone']['label'], 'Customizes phone label');
+    $test->assertSame('Tỉnh / Thành phố', $filtered['billing']['billing_city']['label'], 'Customizes city label');
+    $test->assertSame('Địa chỉ giao hàng cụ thể', $filtered['billing']['billing_address_1']['label'], 'Customizes address label');
+    $test->assertTrue($filtered['billing']['billing_phone']['required'], 'Phone is strictly required');
+});
+
+$test->it('should render checkout hero stepper with Step 2 active', function() use ($test) {
+    $hero_html = ktd_get_checkout_hero_html();
+    $test->assertTrue(strpos($hero_html, 'ktd-stepper-horizontal') !== false, 'Renders horizontal order stepper');
+    $test->assertTrue(strpos($hero_html, 'ktd-step-item is-active') !== false, 'Step 2 is active');
+    $test->assertTrue(strpos($hero_html, 'Thanh Toán') !== false, 'Renders step name Thanh Toán');
+
+    $css_path = __DIR__ . '/../assets/css/checkout.css';
+    $test->assertTrue(file_exists($css_path), 'assets/css/checkout.css exists on disk');
+});
+
+$test->it('should render trust badges under place order button', function() use ($test) {
+    ob_start();
+    ktd_checkout_trust_badges();
+    $html = ob_get_clean();
+
+    $test->assertTrue(strpos($html, 'Bảo mật thanh toán chuẩn SSL 256-bit') !== false, 'Includes SSL 256-bit trust badge');
+    $test->assertTrue(strpos($html, 'Giao hàng hỏa tốc nội thành 1-2h') !== false, 'Includes Express delivery trust badge');
+    $test->assertTrue(strpos($html, 'Bảo hành chính hãng 1 đổi 1 trong 30 ngày') !== false, 'Includes 30-day replacement badge');
+});
+
+$test->describe('Phase P0.2 & P0.3: Single Product Installment CTA & Auth Registration');
+
+$test->it('should render dual CTA with 0% installment button on single product', function() use ($test) {
+    ob_start();
+    ktd_render_single_product_dual_cta();
+    $html = ob_get_clean();
+
+    $test->assertTrue(strpos($html, 'id="ktdInstallmentBtn"') !== false, 'Renders installment CTA button');
+    $test->assertTrue(strpos($html, 'TRẢ GÓP 0%') !== false, 'Displays bold TRẢ GÓP 0% label');
+    $test->assertTrue(strpos($html, 'Xét duyệt online 5 phút') !== false, 'Displays 5-minute approval subtext');
+});
+
+$test->it('should render installment modal with credit card & CCCD options and AI assistance trigger', function() use ($test) {
+    $GLOBALS['mock_is_product'] = true;
+    function is_product() {
+        return $GLOBALS['mock_is_product'] ?? true;
+    }
+
+    ob_start();
+    ktd_render_installment_modal();
+    $html = ob_get_clean();
+
+    $test->assertTrue(strpos($html, 'id="ktdInstallmentModal"') !== false, 'Renders modal container');
+    $test->assertTrue(strpos($html, 'Chính Sách Mua Trả Góp 0% Lãi Suất') !== false, 'Renders modal heading');
+    $test->assertTrue(strpos($html, 'Trả Góp 0% Qua Thẻ Tín Dụng') !== false, 'Renders Credit card option');
+    $test->assertTrue(strpos($html, 'Trả Góp Qua CCCD Gắn Chip') !== false, 'Renders CCCD option');
+    $test->assertTrue(strpos($html, 'id="ktdAskAiInstallmentBtn"') !== false, 'Renders AI consultation button');
+});
+
+$test->it('should enable WooCommerce registration and user-defined passwords on My Account', function() use ($test) {
+    $reg_callbacks = $GLOBALS['mock_filters']['pre_option_woocommerce_enable_myaccount_registration'] ?? [];
+    $test->assertTrue(!empty($reg_callbacks), 'Registers pre_option_woocommerce_enable_myaccount_registration');
+    $test->assertSame('yes', call_user_func(end($reg_callbacks)), 'Filter enables registration');
+
+    $pwd_callbacks = $GLOBALS['mock_filters']['pre_option_woocommerce_registration_generate_password'] ?? [];
+    $test->assertTrue(!empty($pwd_callbacks), 'Registers pre_option_woocommerce_registration_generate_password');
+    $test->assertSame('no', call_user_func(end($pwd_callbacks)), 'Filter disables automatic password generator');
+});
+
+$test->describe('Phase P0.4: VietQR Generation & Thank You Stepper');
+
+$test->it('should generate valid VietQR data structure with Napas247 URL', function() use ($test) {
+    $qr = ktd_get_vietqr_data(591, 30040000);
+    $test->assertSame('VCB', $qr['bank_id'], 'Bank ID is Vietcombank VCB');
+    $test->assertSame('999988886666', $qr['account_no'], 'Account number is 999988886666');
+    $test->assertSame('KTD STORE', $qr['account_name'], 'Account holder is KTD STORE');
+    $test->assertSame(30040000, $qr['amount'], 'Amount is correct integer');
+    $test->assertSame('KTD 591', $qr['memo'], 'Transfer memo is KTD {order_id}');
+    $test->assertTrue(strpos($qr['qr_image_url'], 'https://img.vietqr.io/image/VCB-999988886666-compact2.png') !== false, 'URL points to VietQR API endpoint');
+    $test->assertTrue(strpos($qr['qr_image_url'], 'amount=30040000') !== false, 'URL contains amount parameter');
+    $test->assertTrue(strpos($qr['qr_image_url'], 'addInfo=KTD%20591') !== false, 'URL contains encoded memo parameter');
+});
+
+$test->it('should render Order Received hero banner with Stepper Step 3 (Hoàn Tất) active', function() use ($test) {
+    $html = ktd_get_order_received_hero_html();
+    $test->assertTrue(strpos($html, 'ktd-order-received-hero') !== false, 'Renders order received hero');
+    $test->assertTrue(strpos($html, 'Đặt Hàng Thành Công') !== false, 'Renders title Đặt Hàng Thành Công');
+    $test->assertTrue(strpos($html, 'ktd-stepper-horizontal') !== false, 'Renders horizontal stepper');
+    $test->assertTrue(strpos($html, 'Hoàn Tất') !== false, 'Renders step label Hoàn Tất');
+});
+
+$test->it('should disable guest email verification check for order received page', function() use ($test) {
+    $email_filters = $GLOBALS['mock_filters']['woocommerce_order_email_verification_required'] ?? [];
+    $test->assertTrue(!empty($email_filters), 'Registers filter for woocommerce_order_email_verification_required');
+    $test->assertSame(false, call_user_func(end($email_filters)), 'Filter returns false');
+});
+
+$test->describe('Phase P0.5: Empty Cart Centering & Single Product Interactivity Ergonomics');
+
+$test->it('should validate theme-custom.js has 0 syntax errors via node check', function() use ($test) {
+    $js_file = dirname(__DIR__) . '/assets/js/theme-custom.js';
+    $test->assertTrue(file_exists($js_file), 'theme-custom.js exists on disk');
+    $output = [];
+    $return_code = 0;
+    exec('node -c ' . escapeshellarg($js_file) . ' 2>&1', $output, $return_code);
+    $test->assertSame(0, $return_code, 'node -c theme-custom.js exits with code 0 (no syntax errors)');
+});
+
+$test->it('should verify empty cart hero has centered styling in cart.css', function() use ($test) {
+    $cart_css = file_get_contents(dirname(__DIR__) . '/assets/css/cart.css');
+    $test->assertTrue(strpos($cart_css, '.ktd-cart-hero.is-empty-hero') !== false, 'cart.css has is-empty-hero class selector');
+    $test->assertTrue(strpos($cart_css, 'align-items: center !important;') !== false, 'cart.css centers empty hero items');
+    $test->assertTrue(strpos($cart_css, 'justify-content: center !important;') !== false, 'cart.css centers breadcrumbs in empty hero');
+});
+
+$test->it('should verify modal backdrops and sticky bar do not block pointer events when closed in single-product.css', function() use ($test) {
+    $prod_css = file_get_contents(dirname(__DIR__) . '/assets/css/single-product.css');
+    $test->assertTrue(strpos($prod_css, '.ktd-modal-backdrop {') !== false, 'Has modal backdrop selector');
+    $test->assertTrue(strpos($prod_css, 'pointer-events: none !important;') !== false, 'Modal backdrop disables pointer events when closed');
+    $test->assertTrue(strpos($prod_css, '.woocommerce-variation-add-to-cart') !== false, 'Has woocommerce-variation-add-to-cart flex layout');
 });
 
 // Final Exit Code

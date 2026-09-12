@@ -1,0 +1,404 @@
+/**
+ * ==============================================================================
+ * KTD Native AI Chatbot Styles
+ * Theme: Hello Elementor Child (KTD E-Commerce)
+ * Description: Floating launcher button, chat window, message bubbles, typing indicator, responsive bottom sheet
+ * ==============================================================================
+ */
+
+:root {
+	--ktd-chat-primary: #2563eb;
+	--ktd-chat-primary-dark: #1d4ed8;
+	--ktd-chat-dark: #0f172a;
+	--ktd-chat-border: #e2e8f0;
+	--ktd-chat-bg: #f8fafc;
+}
+
+/* 1. Launcher Button */
+#ktd-chat-launcher {
+	position: fixed !important;
+	bottom: 92px !important;
+	right: 28px !important;
+	width: 52px !important;
+	height: 52px !important;
+	border-radius: 50% !important;
+	background: linear-gradient(135deg, var(--ktd-chat-primary) 0%, var(--ktd-chat-primary-dark) 100%) !important;
+	color: #ffffff !important;
+	border: none !important;
+	box-shadow: 0 8px 24px rgba(37, 99, 235, 0.38) !important;
+	cursor: pointer !important;
+	display: flex !important;
+	align-items: center !important;
+	justify-content: center !important;
+	z-index: 2147483640 !important;
+	transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1) !important;
+	padding: 0 !important;
+}
+
+#ktd-chat-launcher:hover {
+	transform: translateY(-3px) scale(1.05) !important;
+	box-shadow: 0 12px 30px rgba(37, 99, 235, 0.48) !important;
+}
+
+#ktd-chat-launcher .ktd-icon-close {
+	display: none;
+}
+
+#ktd-chat-launcher.is-active .ktd-icon-open {
+	display: none;
+}
+
+#ktd-chat-launcher.is-active .ktd-icon-close {
+	display: block;
+}
+
+/* Chấm xanh Pulse Online */
+.ktd-pulse-badge {
+	position: absolute;
+	top: 2px;
+	right: 2px;
+	width: 13px;
+	height: 13px;
+	background-color: #10b981;
+	border: 2.5px solid #ffffff;
+	border-radius: 50%;
+	box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7);
+	animation: ktdPulseGlow 2s infinite cubic-bezier(0.4, 0, 0.6, 1);
+	pointer-events: none;
+}
+
+@keyframes ktdPulseGlow {
+	0% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7); }
+	70% { box-shadow: 0 0 0 8px rgba(16, 185, 129, 0); }
+	100% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0); }
+}
+
+/* 2. Cửa sổ Chatbox Native */
+#ktd-chat-window {
+	position: fixed !important;
+	bottom: 154px !important;
+	right: 28px !important;
+	width: 390px !important;
+	height: 600px !important;
+	max-width: calc(100vw - 32px) !important;
+	max-height: calc(100vh - 180px) !important;
+	background: #ffffff !important;
+	border-radius: 16px !important;
+	border: 1px solid rgba(226, 232, 240, 0.9) !important;
+	box-shadow: 0 20px 48px -8px rgba(15, 23, 42, 0.18), 0 4px 16px -2px rgba(15, 23, 42, 0.08) !important;
+	z-index: 2147483640 !important;
+	display: flex !important;
+	flex-direction: column !important;
+	overflow: hidden !important;
+	font-family: 'Be Vietnam Pro', sans-serif !important;
+	transition: all 0.28s cubic-bezier(0.16, 1, 0.3, 1) !important;
+	transform-origin: bottom right !important;
+}
+
+#ktd-chat-launcher,
+#ktd-chat-launcher *,
+#ktd-chat-window,
+#ktd-chat-window *,
+#ktd-chat-input,
+#ktd-chat-send {
+	font-family: 'Be Vietnam Pro', sans-serif !important;
+}
+
+#ktd-chat-window.ktd-chat-hidden {
+	opacity: 0 !important;
+	visibility: hidden !important;
+	pointer-events: none !important;
+	transform: translateY(16px) scale(0.95) !important;
+}
+
+/* Header */
+.ktd-chat-header {
+	background: linear-gradient(135deg, var(--ktd-chat-primary) 0%, var(--ktd-chat-primary-dark) 100%) !important;
+	color: #ffffff !important;
+	padding: 14px 16px !important;
+	display: flex !important;
+	align-items: center !important;
+	justify-content: space-between !important;
+	border-bottom: 1px solid rgba(255, 255, 255, 0.12) !important;
+}
+
+.ktd-chat-header-user {
+	display: flex !important;
+	align-items: center !important;
+	gap: 12px !important;
+}
+
+.ktd-chat-avatar {
+	width: 38px !important;
+	height: 38px !important;
+	border-radius: 50% !important;
+	background: rgba(255, 255, 255, 0.2) !important;
+	display: flex !important;
+	align-items: center !important;
+	justify-content: center !important;
+	position: relative !important;
+	color: #ffffff !important;
+}
+
+.ktd-avatar-status {
+	position: absolute !important;
+	bottom: 0 !important;
+	right: 0 !important;
+	width: 10px !important;
+	height: 10px !important;
+	background: #10b981 !important;
+	border: 2px solid #ffffff !important;
+	border-radius: 50% !important;
+}
+
+.ktd-chat-title {
+	font-family: 'Be Vietnam Pro', sans-serif !important;
+	font-size: 14.5px !important;
+	font-weight: 700 !important;
+	color: #ffffff !important;
+	margin: 0 !important;
+	line-height: 1.2 !important;
+}
+
+.ktd-chat-status {
+	font-size: 11.5px !important;
+	color: rgba(255, 255, 255, 0.85) !important;
+	display: block !important;
+	margin-top: 2px !important;
+}
+
+.ktd-chat-header-actions {
+	display: flex !important;
+	align-items: center !important;
+	gap: 6px !important;
+}
+
+.ktd-chat-header-actions button {
+	background: rgba(255, 255, 255, 0.12) !important;
+	border: none !important;
+	color: #ffffff !important;
+	width: 32px !important;
+	height: 32px !important;
+	border-radius: 8px !important;
+	display: flex !important;
+	align-items: center !important;
+	justify-content: center !important;
+	cursor: pointer !important;
+	transition: all 0.2s ease !important;
+	padding: 0 !important;
+}
+
+.ktd-chat-header-actions button:hover {
+	background: rgba(255, 255, 255, 0.25) !important;
+	transform: scale(1.08) !important;
+}
+
+/* Messages Body */
+.ktd-chat-body {
+	flex: 1 !important;
+	overflow-y: auto !important;
+	padding: 16px !important;
+	background: var(--ktd-chat-bg) !important;
+	display: flex !important;
+	flex-direction: column !important;
+	gap: 12px !important;
+	scroll-behavior: smooth !important;
+}
+
+.ktd-chat-messages {
+	display: flex !important;
+	flex-direction: column !important;
+	gap: 12px !important;
+}
+
+.ktd-msg-item {
+	display: flex !important;
+	flex-direction: column !important;
+	max-width: 86% !important;
+	animation: ktdMsgFadeIn 0.25s ease forwards !important;
+}
+
+@keyframes ktdMsgFadeIn {
+	from { opacity: 0; transform: translateY(6px); }
+	to { opacity: 1; transform: translateY(0); }
+}
+
+.ktd-msg-item.ktd-msg-user {
+	align-self: flex-end !important;
+}
+
+.ktd-msg-item.ktd-msg-bot {
+	align-self: flex-start !important;
+}
+
+.ktd-bubble {
+	padding: 11px 15px !important;
+	font-size: 13.8px !important;
+	line-height: 1.55 !important;
+	word-break: break-word !important;
+}
+
+.ktd-msg-user .ktd-bubble {
+	background: var(--ktd-chat-primary) !important;
+	color: #ffffff !important;
+	border-radius: 16px 16px 4px 16px !important;
+	box-shadow: 0 2px 8px rgba(37, 99, 235, 0.2) !important;
+}
+
+.ktd-msg-bot .ktd-bubble {
+	background: #ffffff !important;
+	color: #1e293b !important;
+	border: 1px solid var(--ktd-chat-border) !important;
+	border-radius: 16px 16px 16px 4px !important;
+	box-shadow: 0 2px 10px rgba(0, 0, 0, 0.03) !important;
+}
+
+.ktd-msg-bot .ktd-bubble strong {
+	color: #0f172a !important;
+	font-weight: 700 !important;
+}
+
+.ktd-msg-bot .ktd-bubble ul,
+.ktd-msg-bot .ktd-bubble ol {
+	margin: 6px 0 !important;
+	padding-left: 18px !important;
+}
+
+.ktd-msg-bot .ktd-bubble li {
+	margin-bottom: 4px !important;
+}
+
+.ktd-msg-bot .ktd-bubble a {
+	color: var(--ktd-chat-primary) !important;
+	font-weight: 600 !important;
+	text-decoration: underline !important;
+}
+
+.ktd-msg-time {
+	font-size: 11px !important;
+	color: #94a3b8 !important;
+	margin-top: 3px !important;
+	padding: 0 4px !important;
+}
+
+.ktd-msg-user .ktd-msg-time {
+	text-align: right !important;
+}
+
+/* Typing Indicator: Mặc định ẩn 100%, chỉ hiện khi có class is-typing */
+.ktd-chat-typing {
+	display: none !important;
+	align-items: center !important;
+	gap: 5px !important;
+	background: #ffffff !important;
+	border: 1px solid var(--ktd-chat-border) !important;
+	border-radius: 16px 16px 16px 4px !important;
+	padding: 10px 14px !important;
+	align-self: flex-start !important;
+	box-shadow: 0 2px 8px rgba(0, 0, 0, 0.02) !important;
+}
+
+.ktd-chat-typing.is-typing {
+	display: flex !important;
+}
+
+.ktd-typing-dot {
+	width: 6px !important;
+	height: 6px !important;
+	border-radius: 50% !important;
+	background: #94a3b8 !important;
+	animation: ktdTyping 1.4s infinite ease-in-out !important;
+}
+
+.ktd-typing-dot:nth-child(2) { animation-delay: 0.2s !important; }
+.ktd-typing-dot:nth-child(3) { animation-delay: 0.4s !important; }
+
+@keyframes ktdTyping {
+	0%, 60%, 100% { transform: translateY(0); opacity: 0.4; }
+	30% { transform: translateY(-4px); opacity: 1; }
+}
+
+.ktd-typing-text {
+	font-size: 12px !important;
+	color: #64748b !important;
+	margin-left: 6px !important;
+}
+
+/* Form Input */
+.ktd-chat-form {
+	display: flex !important;
+	align-items: center !important;
+	gap: 8px !important;
+	padding: 12px 14px !important;
+	background: #ffffff !important;
+	border-top: 1px solid var(--ktd-chat-border) !important;
+}
+
+#ktd-chat-input {
+	flex: 1 !important;
+	height: 42px !important;
+	border: 1px solid var(--ktd-chat-border) !important;
+	border-radius: 24px !important;
+	padding: 0 16px !important;
+	font-size: 13.8px !important;
+	background: var(--ktd-chat-bg) !important;
+	color: #1e293b !important;
+	outline: none !important;
+	font-family: inherit !important;
+	transition: all 0.2s ease !important;
+	box-sizing: border-box !important;
+}
+
+#ktd-chat-input:focus {
+	border-color: #cbd5e1 !important;
+	background: #ffffff !important;
+	box-shadow: 0 1px 4px rgba(0, 0, 0, 0.04) !important;
+}
+
+#ktd-chat-send {
+	width: 42px !important;
+	height: 42px !important;
+	border-radius: 50% !important;
+	background: var(--ktd-chat-primary) !important;
+	border: none !important;
+	color: #ffffff !important;
+	display: flex !important;
+	align-items: center !important;
+	justify-content: center !important;
+	cursor: pointer !important;
+	transition: all 0.2s ease !important;
+	padding: 0 !important;
+	flex-shrink: 0 !important;
+}
+
+#ktd-chat-send:hover {
+	background: var(--ktd-chat-primary-dark) !important;
+	transform: scale(1.06) !important;
+}
+
+#ktd-chat-send:disabled {
+	opacity: 0.5 !important;
+	cursor: not-allowed !important;
+	transform: none !important;
+}
+
+/* 3. Mobile Responsive (Bottom Sheet) */
+@media (max-width: 768px) {
+	#ktd-chat-launcher {
+		bottom: 78px !important;
+		right: 20px !important;
+		width: 48px !important;
+		height: 48px !important;
+	}
+
+	#ktd-chat-window {
+		bottom: 84px !important;
+		right: 16px !important;
+		left: 16px !important;
+		width: calc(100vw - 32px) !important;
+		height: calc(100vh - 120px) !important;
+		max-width: none !important;
+		max-height: 82vh !important;
+		border-radius: 16px !important;
+	}
+}

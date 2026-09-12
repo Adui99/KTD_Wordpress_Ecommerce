@@ -10,10 +10,15 @@
    6. Contact Page Styling
    ========================================================================== */
 .ktd-contact-hero {
-  background: linear-gradient(180deg, #f8fafc 0%, #ffffff 100%);
-  padding: 56px 0 40px;
+  background: #ffffff;
+  padding: 44px 0 36px;
   text-align: center;
   border-bottom: 1px solid var(--ktd-border);
+}
+
+.ktd-contact-hero-content {
+  max-width: 760px;
+  margin: 0 auto;
 }
 
 .ktd-contact-hero-title {
@@ -27,11 +32,10 @@
 
 .ktd-contact-hero-desc {
   font-family: 'Be Vietnam Pro', sans-serif;
-  font-size: 1rem;
+  font-size: 1.05rem;
   color: var(--ktd-text-muted);
-  max-width: 650px;
-  margin: 0 auto;
-  line-height: 1.6;
+  line-height: 1.65;
+  margin: 0;
 }
 
 .ktd-contact-main {

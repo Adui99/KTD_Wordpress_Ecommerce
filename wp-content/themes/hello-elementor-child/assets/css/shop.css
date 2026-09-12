@@ -10,11 +10,16 @@
    4. Products (Shop) Page Styling
    ========================================================================== */
 .ktd-shop-hero {
-  background: linear-gradient(180deg, #f8fafc 0%, #ffffff 100%);
+  background: #ffffff;
   border-bottom: 1px solid var(--ktd-border);
-  padding: 48px 0 36px;
-  text-align: center;
+  padding: 40px 0 36px;
   margin-bottom: 36px;
+}
+
+.ktd-shop-hero-content {
+  text-align: center;
+  max-width: 740px;
+  margin: 0 auto;
 }
 
 .ktd-shop-hero-title {
@@ -33,6 +38,14 @@
   max-width: 680px;
   margin: 0 auto;
   line-height: 1.6;
+}
+
+/* Hide stray default WooCommerce title & breadcrumbs in shop main */
+.ktd-shop-main > .woocommerce-products-header,
+.ktd-shop-main > .woocommerce-breadcrumb,
+.woocommerce-shop .page-title,
+.post-type-archive-product .page-title {
+  display: none !important;
 }
 
 /* Shop Layout: 2 Columns (Sidebar + Grid) */

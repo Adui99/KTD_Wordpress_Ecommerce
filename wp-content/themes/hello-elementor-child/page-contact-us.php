@@ -17,11 +17,22 @@ get_header();
 	<!-- Hero Section -->
 	<section class="ktd-contact-hero">
 		<div class="ktd-page-container">
-			<span class="ktd-section-badge">HỖ TRỢ TẬN TÂM • KẾT NỐI NHANH CHÓNG</span>
-			<h1 class="ktd-contact-hero-title">Liên Hệ Với KTD Store</h1>
-			<p class="ktd-contact-hero-desc">
-				Đội ngũ tư vấn viên và kỹ thuật viên chuyên sâu luôn sẵn sàng hỗ trợ bạn lựa chọn sản phẩm phù hợp nhất hoặc giải đáp mọi yêu cầu bảo hành, dịch vụ.
-			</p>
+			<!-- Top-Left Breadcrumbs (Format Hình 1) -->
+			<div class="ktd-hero-breadcrumbs-wrapper">
+				<nav class="ktd-breadcrumbs" aria-label="Breadcrumb">
+					<a href="<?php echo esc_url( home_url( '/' ) ); ?>" class="ktd-crumb-item">Trang chủ</a>
+					<span class="ktd-crumb-sep">/</span>
+					<span class="ktd-crumb-item ktd-crumb-current">Liên hệ</span>
+				</nav>
+			</div>
+
+			<div class="ktd-contact-hero-content">
+				<span class="ktd-section-badge">HỖ TRỢ TẬN TÂM • KẾT NỐI NHANH CHÓNG</span>
+				<h1 class="ktd-contact-hero-title">Liên Hệ Với KTD Store</h1>
+				<p class="ktd-contact-hero-desc">
+					Đội ngũ tư vấn viên và kỹ thuật viên chuyên sâu luôn sẵn sàng hỗ trợ bạn lựa chọn sản phẩm phù hợp nhất hoặc giải đáp mọi yêu cầu bảo hành, dịch vụ.
+				</p>
+			</div>
 		</div>
 	</section>
 

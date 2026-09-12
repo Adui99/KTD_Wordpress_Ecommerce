@@ -1,4 +1,4 @@
-﻿/**
+/**
  * ==============================================================================
  * Module: Base & Design Tokens
  * Description: Global variables (:root), browser reset, typography, shared UI badges/buttons, and floating navigation
@@ -172,5 +172,19 @@ html {
   border-color: var(--ktd-primary);
   color: var(--ktd-primary) !important;
   background-color: #f8fafc;
+}
+
+/* ==========================================================================
+   4. Accessibility & Motion Preferences (WCAG AA)
+   ========================================================================== */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
 }
 

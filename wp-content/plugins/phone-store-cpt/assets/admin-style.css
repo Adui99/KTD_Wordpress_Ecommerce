@@ -2,12 +2,71 @@
  * Phone Store Custom Post Types - Admin Styling
  */
 
-.phone-meta-wrapper, .phone-order-meta-wrapper {
-	padding: 10px 5px;
+.phone-meta-container, .phone-order-meta-wrapper {
+	padding: 5px 0;
+}
+
+.phone-meta-section {
+	background: #fdfdfd;
+	border: 1px solid #e2e4e7;
+	border-radius: 6px;
+	padding: 14px 18px 18px;
+	margin-bottom: 16px;
+}
+
+.phone-meta-section:last-child {
+	margin-bottom: 0;
+}
+
+.phone-section-title {
+	margin: 0 0 12px 0;
+	padding-bottom: 8px;
+	font-size: 14px;
+	font-weight: 600;
+	color: #1d2327;
+	border-bottom: 1px solid #eef0f2;
+	display: flex;
+	align-items: center;
+	gap: 6px;
+}
+
+.phone-section-title .dashicons {
+	color: #2271b1;
+	font-size: 18px;
+}
+
+.phone-meta-grid, .phone-order-grid {
+	display: grid;
+	grid-template-columns: 1fr 1fr;
+	gap: 14px 18px;
+}
+
+.phone-meta-field, .phone-order-field {
+	display: flex;
+	flex-direction: column;
+}
+
+.phone-full-width {
+	grid-column: span 2;
 }
 
 .phone-meta-field label, .phone-order-field label {
 	font-size: 13px;
+	font-weight: 600;
+	margin-bottom: 6px;
+	color: #2c3338;
+}
+
+.phone-meta-field input, 
+.phone-meta-field select,
+.phone-order-field input, 
+.phone-order-field select {
+	padding: 7px 10px;
+	font-size: 13px;
+	border-radius: 4px;
+	border: 1px solid #8c8f94;
+	background: #ffffff;
+	transition: all 0.15s ease-in-out;
 }
 
 .phone-meta-field input:focus, 
@@ -17,4 +76,11 @@
 	border-color: #2271b1;
 	box-shadow: 0 0 0 1px #2271b1;
 	outline: 2px solid transparent;
+}
+
+.phone-meta-field .description {
+	margin-top: 4px;
+	font-size: 12px;
+	color: #646970;
+	font-style: italic;
 }

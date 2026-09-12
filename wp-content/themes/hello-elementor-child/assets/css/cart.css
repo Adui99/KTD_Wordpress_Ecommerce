@@ -6,6 +6,16 @@
  * ==============================================================================
  */
 
+/**
+ * CSS Custom Properties — Layout heights
+ * Dùng để tránh magic number trong calc().
+ * Nếu chiều cao header hoặc footer thay đổi, chỉ cần sửa tại đây.
+ */
+:root {
+  --ktd-header-height: 72px;  /* Chiều cao sticky header KTD */
+  --ktd-footer-height: 88px;  /* Chiều cao footer tối thiểu */
+}
+
 /* ==========================================================================
    7. WooCommerce Cart Modern Styling (Elementor Pro Style)
    ========================================================================== */
@@ -19,7 +29,7 @@
 /* Cart Hero Banner & 3-Step Process Stepper */
 .ktd-cart-hero {
   width: 100% !important;
-  background: linear-gradient(180deg, #f8fafc 0%, #ffffff 100%);
+  background: #ffffff !important;
   border-bottom: 1px solid #f1f5f9;
   padding: 32px 0 28px;
   margin-bottom: 36px;
@@ -31,14 +41,65 @@
   padding: 0 28px;
   box-sizing: border-box;
   display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 32px;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 16px;
 }
 
-.ktd-cart-hero-left {
-  flex: 1;
-  min-width: 0;
+/* Centered Empty Cart Hero State */
+.ktd-cart-hero.is-empty-hero {
+  text-align: center !important;
+  padding: 24px 0 16px !important;
+  margin-bottom: 12px !important;
+  background: transparent !important;
+  border-bottom: none !important;
+}
+
+.ktd-cart-hero.is-empty-hero .ktd-cart-hero-inner {
+  align-items: center !important;
+  text-align: center !important;
+  justify-content: center !important;
+}
+
+.ktd-cart-hero.is-empty-hero .ktd-cart-breadcrumbs {
+  justify-content: center !important;
+  margin: 0 auto 6px !important;
+}
+
+.ktd-cart-hero.is-empty-hero .ktd-cart-title {
+  text-align: center !important;
+  justify-content: center !important;
+  margin: 0 auto !important;
+}
+
+/* Viewport Centering for Empty Cart (Hình 1) */
+body.ktd-cart-is-empty .site-main,
+body.ktd-cart-is-empty .page-content {
+  /* Trừ chiều cao header + footer để centering chính xác trong viewport */
+  min-height: calc(100vh - var(--ktd-header-height) - var(--ktd-footer-height));
+  display: flex !important;         /* Override: Elementor đặt display:block toàn cục */
+  flex-direction: column !important; /* Override: cần column để center theo trục dọc */
+  justify-content: center !important;
+  align-items: center !important;
+  box-sizing: border-box !important;
+}
+
+body.ktd-cart-is-empty .woocommerce {
+  display: flex !important;         /* Override: WooCommerce .woocommerce mặc định là block */
+  flex-direction: column !important;
+  justify-content: center !important;
+  align-items: center !important;
+  width: 100% !important;
+  max-width: 100% !important;
+  margin: 0 auto !important;
+  padding: 0 16px !important;
+  box-sizing: border-box !important;
+}
+
+body.ktd-cart-is-empty .ktd-empty-cart-wrapper {
+  margin: 0 auto 20px !important;
+  width: 100% !important;
+  max-width: 760px !important;
 }
 
 .ktd-cart-breadcrumbs {
@@ -48,7 +109,7 @@
   font-family: var(--ktd-font-body);
   font-size: 0.85rem;
   color: #64748b;
-  margin-bottom: 8px;
+  margin-bottom: 4px;
 }
 
 .ktd-cart-breadcrumbs a {
@@ -88,81 +149,91 @@
   color: #64748b;
 }
 
-.ktd-cart-hero-right {
-  flex-shrink: 0;
-}
-
-/* 3-Step Order Process Stepper */
-.ktd-order-stepper {
+/* Horizontal Stepper under Title */
+.ktd-stepper-horizontal {
   display: flex;
   align-items: center;
-  background: #ffffff;
-  border: 1px solid #e2e8f0;
-  border-radius: 16px;
-  padding: 12px 24px;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.02);
-  margin: 0;
+  width: 100%;
+  max-width: 720px;
+  margin: 8px 0 0 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
 .ktd-step-item {
   display: flex;
   align-items: center;
   gap: 10px;
-  opacity: 0.45;
-  transition: all 0.2s ease;
+  flex-shrink: 0;
+  opacity: 0.55;
+  transition: all 0.25s ease;
 }
 
-.ktd-step-item.is-active {
+.ktd-step-item.is-active,
+.ktd-step-item.is-done {
   opacity: 1;
 }
 
-.ktd-step-icon {
-  width: 36px;
-  height: 36px;
+.ktd-step-bubble {
+  width: 32px;
+  height: 32px;
   border-radius: 50%;
   background: #f1f5f9;
   color: #64748b;
+  font-family: var(--ktd-font-heading);
+  font-size: 0.88rem;
+  font-weight: 700;
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: all 0.2s ease;
+  border: 2px solid #e2e8f0;
+  transition: all 0.25s ease;
+  flex-shrink: 0;
 }
 
-.ktd-step-item.is-active .ktd-step-icon {
-  background: rgba(37, 99, 235, 0.1);
-  color: var(--ktd-primary);
-  border: 1.5px solid var(--ktd-primary);
+.ktd-step-item.is-active .ktd-step-bubble {
+  background: var(--ktd-primary);
+  color: #ffffff;
+  border-color: var(--ktd-primary);
+  box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.15);
 }
 
-.ktd-step-text {
-  display: flex;
-  flex-direction: column;
+.ktd-step-item.is-done .ktd-step-bubble {
+  background: #10b981;
+  color: #ffffff;
+  border-color: #10b981;
 }
 
-.ktd-step-num {
-  font-size: 0.72rem;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-  font-weight: 600;
-  color: #94a3b8;
-}
-
-.ktd-step-item.is-active .ktd-step-num {
-  color: var(--ktd-primary);
-}
-
-.ktd-step-name {
+.ktd-step-label {
   font-family: var(--ktd-font-heading);
-  font-size: 0.95rem;
+  font-size: 0.92rem;
   font-weight: 600;
-  color: var(--ktd-dark);
+  color: #64748b;
+  transition: color 0.2s ease;
+  white-space: nowrap;
 }
 
-.ktd-step-connector {
-  width: 32px;
+.ktd-step-item.is-active .ktd-step-label {
+  color: var(--ktd-primary);
+  font-weight: 700;
+}
+
+.ktd-step-item.is-done .ktd-step-label {
+  color: #10b981;
+  font-weight: 600;
+}
+
+.ktd-step-line {
+  flex: 1;
   height: 2px;
   background: #e2e8f0;
-  margin: 0 14px;
+  margin: 0 16px;
+  transition: background 0.3s ease;
+  min-width: 24px;
+}
+
+.ktd-step-line.is-done {
+  background: #10b981;
 }
 
 /* Main Cart Wrapper */
@@ -173,22 +244,45 @@
   box-sizing: border-box;
 }
 
-/* 2-Column Container */
+/* Notices Wrapper: Always spans full width at the top (Fix issue where notices become flex items) */
+.woocommerce-cart .woocommerce-notices-wrapper {
+  grid-column: 1 / -1 !important;
+  width: 100% !important;
+  max-width: 100% !important;
+  box-sizing: border-box !important;
+}
+
+/* 2-Column Container via CSS Grid */
 @media (min-width: 992px) {
   .woocommerce-cart .woocommerce {
-    display: flex !important;
-    align-items: flex-start !important;
+    display: grid !important;
+    grid-template-columns: minmax(0, 1fr) 380px !important;
     gap: 36px !important;
+    align-items: start !important;
   }
   .woocommerce-cart .woocommerce-cart-form {
-    flex: 1 1 65% !important;
     min-width: 0 !important;
+    width: 100% !important;
   }
   .woocommerce-cart .cart-collaterals {
-    flex: 0 0 35% !important;
-    min-width: 340px !important;
+    min-width: 0 !important;
+    width: 100% !important;
     position: sticky !important;
     top: 96px !important;
+  }
+}
+
+@media (max-width: 991px) {
+  .woocommerce-cart .woocommerce {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 32px !important;
+    padding: 0 16px;
+  }
+  .woocommerce-cart .woocommerce-notices-wrapper,
+  .woocommerce-cart .woocommerce-cart-form,
+  .woocommerce-cart .cart-collaterals {
+    width: 100% !important;
   }
 }
 
@@ -449,23 +543,15 @@
   box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3) !important;
 }
 
+/* Real-Time AJAX Cart Updating (Hình 2): Hide manual update button & add subtle loading state */
 .woocommerce-cart td.actions button[name="update_cart"] {
-  height: 42px !important;
-  padding: 0 22px !important;
-  border-radius: 9999px !important;
-  background: #f1f5f9 !important;
-  color: #475569 !important;
-  border: 1px solid #e2e8f0 !important;
-  font-family: var(--ktd-font-body) !important;
-  font-size: 0.88rem !important;
-  font-weight: 600 !important;
-  cursor: pointer !important;
-  transition: all 0.2s ease !important;
+  display: none !important;
 }
 
-.woocommerce-cart td.actions button[name="update_cart"]:hover:not(:disabled) {
-  background: #e2e8f0 !important;
-  color: #1e293b !important;
+.ktd-cart-loading {
+  opacity: 0.55 !important;
+  pointer-events: none !important;
+  transition: opacity 0.2s ease !important;
 }
 
 /* Sticky Order Summary Card */
@@ -598,32 +684,63 @@
 
 /* WooCommerce Notices (Toast Alert Style) */
 .woocommerce-cart .woocommerce-notices-wrapper {
-  max-width: 1200px;
-  margin: 0 auto 24px;
+  max-width: 100% !important;
+  width: 100% !important;
+  margin: 0 auto 24px !important;
+  grid-column: 1 / -1 !important;
 }
 
+/* WooCommerce Cart Notices - Icon clipping fix & Clean Pastel Styling */
 .woocommerce-cart .woocommerce-message,
 .woocommerce-cart .woocommerce-info,
 .woocommerce-cart .woocommerce-error {
-  background: #ffffff !important;
-  border: 1px solid #e2e8f0 !important;
-  border-left: 5px solid #10b981 !important;
-  border-radius: 14px !important;
-  padding: 16px 24px 16px 20px !important;
+  position: relative !important;
+  padding: 14px 20px 14px 54px !important;
+  margin: 0 0 24px !important;
+  border-radius: 12px !important;
   display: flex !important;
   align-items: center !important;
   justify-content: space-between !important;
   flex-wrap: wrap !important;
   gap: 12px !important;
-  font-family: 'Be Vietnam Pro', sans-serif !important;
+  font-family: var(--ktd-font-body) !important;
   font-size: 0.92rem !important;
-  color: #1e293b !important;
-  box-shadow: 0 4px 16px rgba(15, 23, 42, 0.04) !important;
   line-height: 1.5 !important;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.03) !important;
+  width: 100% !important;
+  box-sizing: border-box !important;
+}
+
+.woocommerce-cart .woocommerce-message::before,
+.woocommerce-cart .woocommerce-info::before,
+.woocommerce-cart .woocommerce-error::before {
+  position: absolute !important;
+  left: 20px !important;
+  top: 50% !important;
+  transform: translateY(-50%) !important;
+  margin: 0 !important;
+  line-height: 1 !important;
+}
+
+.woocommerce-cart .woocommerce-message {
+  background-color: #f0fdf4 !important;
+  border: 1px solid #bbf7d0 !important;
+  border-left: 4px solid #10b981 !important;
+  color: #166534 !important;
+}
+
+.woocommerce-cart .woocommerce-info {
+  background-color: #eff6ff !important;
+  border: 1px solid #bfdbfe !important;
+  border-left: 4px solid var(--ktd-primary) !important;
+  color: #1e40af !important;
 }
 
 .woocommerce-cart .woocommerce-error {
-  border-left-color: #ef4444 !important;
+  background-color: #fef2f2 !important;
+  border: 1px solid #fecaca !important;
+  border-left: 4px solid #ef4444 !important;
+  color: #991b1b !important;
 }
 
 .woocommerce-cart .woocommerce-message a.button,
@@ -631,21 +748,29 @@
   display: inline-flex !important;
   align-items: center !important;
   padding: 6px 16px !important;
-  background-color: #f1f5f9 !important;
-  color: #2563eb !important;
-  border: 1px solid #cbd5e1 !important;
+  background-color: #10b981 !important;
+  color: #ffffff !important;
+  border: 1px solid #059669 !important;
   border-radius: 8px !important;
   font-size: 0.85rem !important;
   font-weight: 600 !important;
   text-decoration: none !important;
   transition: all 0.2s ease !important;
+  margin-left: auto !important;
 }
 
 .woocommerce-cart .woocommerce-message a.button:hover,
 .woocommerce-cart .woocommerce-message a.restore-item:hover {
-  background-color: #2563eb !important;
-  border-color: #2563eb !important;
+  background-color: #059669 !important;
+  border-color: #047857 !important;
   color: #ffffff !important;
+}
+
+/* Hide shipping calculator and unnecessary form inputs on cart */
+.woocommerce-cart .woocommerce-shipping-calculator,
+.woocommerce-cart .shipping-calculator-button,
+.woocommerce-cart .shipping-calculator-form {
+  display: none !important;
 }
 
 /* Empty Cart State Card */
@@ -845,14 +970,13 @@
     gap: 16px !important;
     padding: 0 16px !important;
   }
-  .ktd-cart-hero-right {
-    width: 100% !important;
+  .ktd-cart-hero.is-empty-hero .ktd-cart-hero-inner {
+    align-items: center !important;
+    text-align: center !important;
   }
-  .ktd-order-stepper {
+  .ktd-stepper-horizontal {
     width: 100% !important;
-    box-sizing: border-box !important;
-    justify-content: space-around !important;
-    padding: 10px 16px !important;
+    max-width: 100% !important;
   }
   .woocommerce-cart .woocommerce {
     padding: 0 16px !important;
@@ -872,20 +996,21 @@
   .ktd-cart-item-count {
     font-size: 0.95rem !important;
   }
-  .ktd-order-stepper {
-    padding: 8px 12px !important;
+  .ktd-stepper-horizontal {
+    width: 100% !important;
+    max-width: 100% !important;
   }
-  .ktd-step-name {
-    display: none !important;
-  }
-  .ktd-step-connector {
-    margin: 0 6px !important;
-    width: 20px !important;
-  }
-  .ktd-step-icon {
-    width: 30px !important;
-    height: 30px !important;
+  .ktd-step-bubble {
+    width: 28px !important;
+    height: 28px !important;
     font-size: 0.8rem !important;
+  }
+  .ktd-step-label {
+    font-size: 0.82rem !important;
+  }
+  .ktd-step-line {
+    margin: 0 8px !important;
+    min-width: 16px !important;
   }
 
   /* Table to Card List transformation */

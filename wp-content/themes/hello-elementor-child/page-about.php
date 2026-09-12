@@ -17,6 +17,15 @@ get_header();
 	<!-- Hero Section -->
 	<section class="ktd-about-hero">
 		<div class="ktd-page-container">
+			<!-- Top-Left Breadcrumbs (Format Hình 1) -->
+			<div class="ktd-hero-breadcrumbs-wrapper">
+				<nav class="ktd-breadcrumbs" aria-label="Breadcrumb">
+					<a href="<?php echo esc_url( home_url( '/' ) ); ?>" class="ktd-crumb-item">Trang chủ</a>
+					<span class="ktd-crumb-sep">/</span>
+					<span class="ktd-crumb-item ktd-crumb-current">Về chúng tôi</span>
+				</nav>
+			</div>
+
 			<div class="ktd-about-hero-content">
 				<span class="ktd-section-badge">CHÍNH HÃNG 100% • THƯƠNG HIỆU TIÊN PHONG</span>
 				<h1 class="ktd-about-hero-title">KTD Store – Định Hình Trải Nghiệm Công Nghệ Flagship</h1>

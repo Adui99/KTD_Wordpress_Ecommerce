@@ -103,32 +103,99 @@ document.addEventListener('DOMContentLoaded', function () {
           triggerChange(input);
         }
       });
+      input.addEventListener('change', function () {
+        triggerChange(input);
+      });
     });
   }
 
-  var cartUpdateTimer;
+  // ----------------------------------------------------------------
+  // triggerChange: Debounced AJAX cart update
+  // Debounce được gắn vào từng input riêng biệt (input._ktdDebounce)
+  // để tránh một input của form này hủy debounce của form khác.
+  // ----------------------------------------------------------------
   function triggerChange(input) {
     var event = new Event('change', { bubbles: true });
     input.dispatchEvent(event);
-    var updateBtn = document.querySelector('button[name="update_cart"]');
-    if (updateBtn) {
-      updateBtn.disabled = false;
-      updateBtn.setAttribute('aria-disabled', 'false');
-
-      clearTimeout(cartUpdateTimer);
-      cartUpdateTimer = setTimeout(function () {
-        if (updateBtn && !updateBtn.disabled) {
-          updateBtn.click();
-        }
-      }, 600);
+    if (window.jQuery) {
+      window.jQuery(input).trigger('change');
     }
+
+    var form = input.closest('form.woocommerce-cart-form');
+    if (!form || !window.jQuery) return;
+
+    var $ = window.jQuery;
+    var $form = $(form);
+    var $collaterals = $('.cart-collaterals');
+
+    $form.addClass('ktd-cart-loading');
+    $collaterals.addClass('ktd-cart-loading');
+
+    // Per-input debounce — tránh shared closure conflict
+    clearTimeout(input._ktdDebounce);
+    input._ktdDebounce = setTimeout(function () {
+      var formData = $form.serializeArray();
+      formData.push({ name: 'update_cart', value: 'Update cart' });
+
+      $.ajax({
+        type: $form.attr('method') || 'POST',
+        url: $form.attr('action') || window.location.href,
+        data: $.param(formData),
+        dataType: 'html',
+        success: function (response) {
+          var parser = new DOMParser();
+          var doc = parser.parseFromString(response, 'text/html');
+
+          var newEmpty = doc.querySelector('.ktd-empty-cart-wrapper') || doc.querySelector('.cart-empty');
+          if (newEmpty) {
+            window.location.reload();
+            return;
+          }
+
+          var newForm = doc.querySelector('form.woocommerce-cart-form');
+          if (newForm) {
+            form.innerHTML = newForm.innerHTML;
+            initCartQtyButtons();
+          }
+
+          var newTotals = doc.querySelector('.cart-collaterals');
+          if (newTotals && $collaterals.length) {
+            $collaterals.html(newTotals.innerHTML);
+          }
+
+          var newHeroCount = doc.querySelector('.ktd-cart-item-count');
+          var currentHeroCount = document.querySelector('.ktd-cart-item-count');
+          if (newHeroCount && currentHeroCount) {
+            currentHeroCount.innerHTML = newHeroCount.innerHTML;
+          }
+
+          var newBadge = doc.querySelector('.ktd-cart-badge, .ktd-header-cart-count');
+          var currentBadge = document.querySelector('.ktd-cart-badge, .ktd-header-cart-count');
+          if (newBadge && currentBadge) {
+            currentBadge.textContent = newBadge.textContent;
+          }
+
+          $(document.body).trigger('updated_cart_totals');
+        },
+        error: function () {
+          // Hiển thị thông báo lỗi thân thiện thay vì reload đột ngột
+          var $errMsg = $('<p class="ktd-cart-ajax-error" role="alert">Cập nhật giỏ hàng thất bại, vui lòng thử lại.</p>');
+          $form.prepend($errMsg);
+          setTimeout(function () { $errMsg.remove(); }, 4000);
+        },
+        complete: function () {
+          $form.removeClass('ktd-cart-loading');
+          $collaterals.removeClass('ktd-cart-loading');
+        }
+      });
+    }, 400);
   }
 
   initCartQtyButtons();
 
-  // Re-run on WooCommerce cart updated via AJAX
+  // Re-run on WooCommerce cart updated via AJAX and variation changes
   if (window.jQuery) {
-    window.jQuery(document.body).on('updated_cart_totals', function () {
+    window.jQuery(document.body).on('updated_cart_totals found_variation reset_data', function () {
       initCartQtyButtons();
     });
   }
@@ -351,59 +418,49 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     // Đồng bộ giá tiền hiển thị bên trong các nút swatch theo cặp Dung lượng / Màu sắc
+    // Dynamic: đọc tên attribute từ form select thay vì hard-code
+    var allAttrSelects = variationForm.querySelectorAll('select[name^="attribute_"]');
+    var allAttrKeys = {}; // { "pa_mau-sac": selectEl, ... }
+    allAttrSelects.forEach(function (sel) {
+      var key = sel.name.replace('attribute_', '');
+      allAttrKeys[key] = sel;
+    });
+
     function updateSwatchPillPrices() {
       if (!variationsData || !variationsData.length) return;
+    // Cập nhật giá các nút màu sắc theo dung lượng đang chọn
+    // Dynamic: đọc tên attribute từ data-attribute thay vì hard-code
+    swatchWrappers.forEach(function (wrap) {
+      var attrKey = wrap.getAttribute('data-attribute'); // ví dụ: "pa_mau-sac"
+      if (!attrKey) return;
+      var relatedWrappers = variationForm.querySelectorAll('.ktd-swatch-pills-wrap:not([data-attribute="' + attrKey + '"])');
 
-      var capacitySelect = variationForm.querySelector('select[name="attribute_pa_dung-luong"]');
-      var colorSelect = variationForm.querySelector('select[name="attribute_pa_mau-sac"]');
+      relatedWrappers.forEach(function (otherWrap) {
+        var otherAttrKey = otherWrap.getAttribute('data-attribute');
+        if (!otherAttrKey) return;
+        var currentSelect = variationForm.querySelector('select[name="attribute_' + attrKey + '"]');
+        if (!currentSelect || !currentSelect.value) return;
 
-      var currentCapacity = capacitySelect ? capacitySelect.value : '';
-      var currentColor = colorSelect ? colorSelect.value : '';
-
-      // Cập nhật giá các nút màu sắc theo dung lượng đang chọn
-      if (currentCapacity) {
-        var colorWrap = variationForm.querySelector('.ktd-swatch-pills-wrap[data-attribute="pa_mau-sac"]');
-        if (colorWrap) {
-          var colorPills = colorWrap.querySelectorAll('.ktd-swatch-pill');
-          colorPills.forEach(function (pill) {
-            var cVal = pill.getAttribute('data-value');
-            var matched = variationsData.find(function (v) {
-              return v.attributes &&
-                v.attributes['attribute_pa_dung-luong'] === currentCapacity &&
-                v.attributes['attribute_pa_mau-sac'] === cVal;
-            });
-            if (matched && matched.display_price) {
-              var priceSpan = pill.querySelector('.ktd-swatch-price');
-              if (priceSpan) {
-                priceSpan.textContent = formatVNDPrice(matched.display_price);
-              }
-            }
+        var pills = otherWrap.querySelectorAll('.ktd-swatch-pill');
+        pills.forEach(function (pill) {
+          var pillVal = pill.getAttribute('data-value');
+          var attrs1 = {}; attrs1['attribute_' + attrKey] = currentSelect.value;
+          var attrs2 = {}; attrs2['attribute_' + otherAttrKey] = pillVal;
+          var matched = variationsData.find(function (v) {
+            return v.attributes &&
+              v.attributes['attribute_' + attrKey] === currentSelect.value &&
+              v.attributes['attribute_' + otherAttrKey] === pillVal;
           });
-        }
-      }
-
-      // Cập nhật giá các nút dung lượng theo màu sắc đang chọn
-      if (currentColor) {
-        var capacityWrap = variationForm.querySelector('.ktd-swatch-pills-wrap[data-attribute="pa_dung-luong"]');
-        if (capacityWrap) {
-          var capPills = capacityWrap.querySelectorAll('.ktd-swatch-pill');
-          capPills.forEach(function (pill) {
-            var capVal = pill.getAttribute('data-value');
-            var matched = variationsData.find(function (v) {
-              return v.attributes &&
-                v.attributes['attribute_pa_dung-luong'] === capVal &&
-                v.attributes['attribute_pa_mau-sac'] === currentColor;
-            });
-            if (matched && matched.display_price) {
-              var priceSpan = pill.querySelector('.ktd-swatch-price');
-              if (priceSpan) {
-                priceSpan.textContent = formatVNDPrice(matched.display_price);
-              }
+          if (matched && matched.display_price) {
+            var priceSpan = pill.querySelector('.ktd-swatch-price');
+            if (priceSpan) {
+              priceSpan.textContent = formatVNDPrice(matched.display_price);
             }
-          });
-        }
-      }
-    }
+          }
+        });
+      });
+    });
+  }
 
     swatchWrappers.forEach(function (wrap) {
       var select = wrap.parentElement ? wrap.parentElement.querySelector('select') : null;
@@ -432,7 +489,8 @@ document.addEventListener('DOMContentLoaded', function () {
           select.dispatchEvent(changeEvent);
 
           if (window.jQuery) {
-            window.jQuery(select).trigger('change');
+            window.jQuery(select).val(val).trigger('change');
+            window.jQuery(variationForm).trigger('check_variations');
           }
 
           updateSwatchPillPrices();
@@ -532,4 +590,239 @@ document.addEventListener('DOMContentLoaded', function () {
     window.addEventListener('resize', checkStickyVisibility, { passive: true });
   }
   initMobileStickyBar();
+
+  // 10. Installment 0% Modal & AI Assistant Interaction
+  function initInstallmentModal() {
+    var openBtn = document.getElementById('ktdInstallmentBtn');
+    var modal = document.getElementById('ktdInstallmentModal');
+    var closeBtn = document.getElementById('ktdModalCloseBtn');
+    var askAiBtn = document.getElementById('ktdAskAiInstallmentBtn');
+    var chatLauncher = document.getElementById('ktd-chat-launcher');
+    var chatInput = document.getElementById('ktd-chat-input');
+    var chatSendBtn = document.getElementById('ktd-chat-send');
+
+    if (!modal) return;
+
+    // Focus trap: WCAG 2.1 SC 2.1.2 — người dùng không thể Tab ra ngoài modal
+    modal.addEventListener('keydown', function (e) {
+      if (e.key !== 'Tab') return;
+      var focusable = Array.from(modal.querySelectorAll(
+        'a[href], button:not([disabled]), input:not([type="hidden"]):not([disabled]), ' +
+        'textarea:not([disabled]), select:not([disabled]), [tabindex]:not([tabindex="-1"])'
+      ));
+      if (!focusable.length) return;
+      var first = focusable[0], last = focusable[focusable.length - 1];
+      if (e.shiftKey) {
+        if (document.activeElement === first) { last.focus(); e.preventDefault(); }
+      } else {
+        if (document.activeElement === last) { first.focus(); e.preventDefault(); }
+      }
+    });
+
+    function openModal() {
+      modal.classList.add('is-visible');
+      modal.setAttribute('aria-hidden', 'false');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeModal() {
+      modal.classList.remove('is-visible');
+      modal.setAttribute('aria-hidden', 'true');
+      document.body.style.overflow = '';
+    }
+
+    if (openBtn) {
+      openBtn.addEventListener('click', function (e) {
+        e.preventDefault();
+        openModal();
+      });
+    }
+
+    if (closeBtn) {
+      closeBtn.addEventListener('click', function (e) {
+        e.preventDefault();
+        closeModal();
+      });
+    }
+
+    modal.addEventListener('click', function (e) {
+      if (e.target === modal) {
+        closeModal();
+      }
+    });
+
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape' && modal.classList.contains('is-visible')) {
+        closeModal();
+      }
+    });
+
+    if (askAiBtn) {
+      askAiBtn.addEventListener('click', function (e) {
+        e.preventDefault();
+        closeModal();
+
+        if (chatLauncher) {
+          var chatPanel = document.getElementById('ktd-chatbot-panel');
+          if (chatPanel && !chatPanel.classList.contains('is-open')) {
+            chatLauncher.click();
+          }
+
+          if (chatInput) {
+            chatInput.value = 'Em muốn tư vấn mua trả góp 0% cho sản phẩm này, thủ tục gồm những gì ạ?';
+            chatInput.focus();
+            if (chatSendBtn) {
+              setTimeout(function () {
+                chatSendBtn.click();
+              }, 300);
+            }
+          }
+        }
+      });
+    }
+  }
+  initInstallmentModal();
+
+  /**
+   * 12. My Account Registration Modal Logic
+   */
+  function initAuthModal() {
+    var modal = document.getElementById('ktdRegisterModal');
+    var openBtn = document.getElementById('ktdOpenRegisterModal');
+    var closeBtn = document.getElementById('ktdCloseRegisterModal');
+    var backBtn = document.getElementById('ktdBackToLoginBtn');
+
+    if (!modal) return;
+
+    // Focus trap: WCAG 2.1 SC 2.1.2 — người dùng không thể Tab ra ngoài modal
+    function getFocusableEls() {
+      return Array.from(modal.querySelectorAll(
+        'a[href], button:not([disabled]), input:not([type="hidden"]):not([disabled]), ' +
+        'textarea:not([disabled]), select:not([disabled]), [tabindex]:not([tabindex="-1"])'
+      ));
+    }
+
+    modal.addEventListener('keydown', function(e) {
+      if (e.key !== 'Tab') return;
+      var focusable = getFocusableEls();
+      if (!focusable.length) return;
+      var first = focusable[0];
+      var last = focusable[focusable.length - 1];
+      if (e.shiftKey) {
+        if (document.activeElement === first) { last.focus(); e.preventDefault(); }
+      } else {
+        if (document.activeElement === last) { first.focus(); e.preventDefault(); }
+      }
+    });
+
+    function openModal() {
+      modal.style.display = 'flex';
+      modal.classList.add('is-active');
+      document.body.style.overflow = 'hidden';
+      var firstInput = modal.querySelector('input:not([type="hidden"])');
+      if (firstInput) firstInput.focus();
+    }
+
+    function closeModal() {
+      modal.style.display = 'none';
+      modal.classList.remove('is-active');
+      document.body.style.overflow = '';
+    }
+
+    if (openBtn) {
+      openBtn.addEventListener('click', function(e) {
+        e.preventDefault();
+        openModal();
+      });
+    }
+
+    if (closeBtn) {
+      closeBtn.addEventListener('click', function(e) {
+        e.preventDefault();
+        closeModal();
+      });
+    }
+
+    if (backBtn) {
+      backBtn.addEventListener('click', function(e) {
+        e.preventDefault();
+        closeModal();
+      });
+    }
+
+    modal.addEventListener('click', function(e) {
+      if (e.target === modal) {
+        closeModal();
+      }
+    });
+
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape' && modal.classList.contains('is-active')) {
+        closeModal();
+      }
+    });
+  }
+  initAuthModal();
+
+  /**
+   * 13. 1-Click Copy Helper for VietQR & Banking Details
+   */
+  document.addEventListener('click', function(e) {
+    var copyBtn = e.target.closest('.ktd-copy-btn');
+    if (!copyBtn) return;
+    var targetText = copyBtn.getAttribute('data-copy');
+    if (!targetText) return;
+
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(targetText).then(function() {
+        showCopySuccess(copyBtn);
+      }).catch(function() {
+        fallbackCopy(targetText, copyBtn);
+      });
+    } else {
+      fallbackCopy(targetText, copyBtn);
+    }
+  });
+
+  function showCopySuccess(btn) {
+    var originalHtml = btn.innerHTML;
+    btn.classList.add('is-copied');
+    btn.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg><span>Đã chép</span>';
+    setTimeout(function() {
+      btn.classList.remove('is-copied');
+      btn.innerHTML = originalHtml;
+    }, 2000);
+  }
+
+  function fallbackCopy(text, btn) {
+    var ta = document.createElement('textarea');
+    ta.value = text;
+    ta.style.position = 'fixed';
+    ta.style.opacity = '0';
+    document.body.appendChild(ta);
+    ta.select();
+    try {
+      document.execCommand('copy');
+      showCopySuccess(btn);
+    } catch (err) {
+      console.warn('[KTD] fallbackCopy thất bại (execCommand không được hỗ trợ):', err);
+    }
+    document.body.removeChild(ta);
+  }
+
+  /**
+   * 14. Checkout Payment Method Card Click Ergonomics
+   */
+  document.addEventListener('click', function(e) {
+    var paymentCard = e.target.closest('li.wc_payment_method');
+    if (!paymentCard) return;
+    // Don't intercept clicks inside inputs or links
+    if (e.target.tagName === 'INPUT' || e.target.tagName === 'A') return;
+
+    var radio = paymentCard.querySelector('input[type="radio"][name="payment_method"]');
+    if (radio && !radio.checked) {
+      radio.checked = true;
+      radio.dispatchEvent(new Event('change', { bubbles: true }));
+    }
+  });
 });

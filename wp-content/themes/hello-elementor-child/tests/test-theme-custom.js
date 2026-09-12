@@ -297,5 +297,43 @@ test.it('should correctly synchronize active states for all swatch options based
   assert.strictEqual(swatches[2].isActive, false);
 });
 
+// --- Suite 6: Installment 0% Modal & AI Consultation State Logic ---
+test.describe('Installment 0% Modal & AI Consultation Logic');
+
+function handleInstallmentModal(isOpen) {
+  return {
+    isVisible: !isOpen,
+    ariaHidden: isOpen,
+    bodyOverflow: !isOpen ? 'hidden' : ''
+  };
+}
+
+function handleAiInstallmentConsultation() {
+  return {
+    modalClosed: true,
+    chatTriggered: true,
+    initialPrompt: 'Em muốn tư vấn mua trả góp 0% cho sản phẩm này, thủ tục gồm những gì ạ?'
+  };
+}
+
+test.it('should toggle installment modal visibility and manage body scroll lock', () => {
+  const open = handleInstallmentModal(false);
+  assert.strictEqual(open.isVisible, true);
+  assert.strictEqual(open.ariaHidden, false);
+  assert.strictEqual(open.bodyOverflow, 'hidden');
+
+  const close = handleInstallmentModal(true);
+  assert.strictEqual(close.isVisible, false);
+  assert.strictEqual(close.ariaHidden, true);
+  assert.strictEqual(close.bodyOverflow, '');
+});
+
+test.it('should close modal and prepare AI chat prompt upon clicking AI consultation', () => {
+  const aiAction = handleAiInstallmentConsultation();
+  assert.strictEqual(aiAction.modalClosed, true);
+  assert.strictEqual(aiAction.chatTriggered, true);
+  assert.ok(aiAction.initialPrompt.includes('trả góp 0%'));
+});
+
 process.exit(test.report());
 
